@@ -2,82 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Athletiq Calcs | Smart Calculators for Training and Health</title>
+  <meta
+    name="description"
+    content="Athletiq Calcs is a collection of smart, easy-to-use calculators for training, nutrition and performance."
+  />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Athletiq Calcs – Training & Nutrition Calculators</title>
-  <meta name="description" content="Free training and nutrition calculators for athletes and serious lifters: TMB, TDEE, BMI, macros, pace, 1RM and more.">
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <div class="logo">ATHLETIQ CALCS</div>
-      <nav class="nav">
+      <a href="/" class="logo">Athletiq Calcs</a>
+      <nav class="main-nav">
         <a href="#nutrition">Nutrition</a>
-        <a href="#running">Running</a>
-        <a href="#strength">Strength</a>
-        <a href="#cardio">Cardio</a>
+        <!-- futuros clusters: Running, Strength, Finance, etc. -->
       </nav>
     </div>
   </header>
 
-  <main class="container main-content">
-    <section class="hero">
-      <h1>Train with numbers, not guesses.</h1>
+  <main class="page">
+    <section class="hero container">
+      <h1>Precision calculators for serious results.</h1>
       <p class="hero-subtitle">
-        Use TMB, TDEE, BMI, pace, VO<sub>2</sub>, 1RM and volume to make better decisions
-        about training, recovery and nutrition.
+        Start with the core nutrition calculators and build your plan on real numbers, not guesses.
       </p>
     </section>
 
-    <section id="nutrition" class="cluster">
-      <h2>Nutrition & Metabolism</h2>
-      <p>Estimate energy expenditure, daily calories and basic intake targets.</p>
-      <ul class="link-list">
-        <li><a href="/calculadoras/tmb.html">Basal Metabolic Rate (BMR / TMB)</a></li>
-        <li><a href="#">Total Daily Energy Expenditure (TDEE)</a></li>
-        <li><a href="#">BMI calculator</a></li>
-        <li><a href="#">Daily protein target (g/kg or g/lb)</a></li>
-        <li><a href="#">Daily water intake</a></li>
-      </ul>
-    </section>
-
-    <section id="running" class="cluster">
-      <h2>Running & Pace</h2>
-      <p>Translate distance and time into pace and usable training speeds.</p>
-      <ul class="link-list">
-        <li><a href="#">Pace calculator</a></li>
-        <li><a href="#">km/h ↔ pace converter</a></li>
-        <li><a href="#">Target race pace for 5k, 10k, 21k</a></li>
-      </ul>
-    </section>
-
-    <section id="strength" class="cluster">
-      <h2>Strength & Volume</h2>
-      <p>Plan load, 1RM and weekly volume for hypertrophy and performance.</p>
-      <ul class="link-list">
-        <li><a href="#">1RM calculator</a></li>
-        <li><a href="#">RPE ↔ %1RM table</a></li>
-        <li><a href="#">Session volume (kg / lb per muscle group)</a></li>
-      </ul>
-    </section>
-
-    <section id="cardio" class="cluster">
-      <h2>Cardio, VO₂ and HIIT</h2>
-      <p>Use classic tests and intervals to structure serious conditioning sessions.</p>
-      <ul class="link-list">
-        <li><a href="#">Heart rate zones</a></li>
-        <li><a href="#">Cooper test (VO₂ estimate)</a></li>
-        <li><a href="#">Tabata / HIIT timer</a></li>
-      </ul>
+    <section id="nutrition" class="section container">
+      <h2>Nutrition calculators</h2>
+      <p class="section-intro">
+        Core tools to estimate your energy needs, body composition and hydration.
+      </p>
+      <div class="card-grid">
+        <a class="card" href="/nutrition/bmr-tdee/index.html">
+          <h3>BMR and TDEE</h3>
+          <p>Estimate your basal metabolism and total daily energy expenditure.</p>
+        </a>
+        <!-- placeholders para os próximos do dia 1 -->
+        <div class="card card--disabled">
+          <h3>BMI Calculator</h3>
+          <p>Coming soon.</p>
+        </div>
+        <div class="card card--disabled">
+          <h3>Daily Calorie Intake</h3>
+          <p>Coming soon.</p>
+        </div>
+        <div class="card card--disabled">
+          <h3>Macro Calculator</h3>
+          <p>Coming soon.</p>
+        </div>
+        <div class="card card--disabled">
+          <h3>Body Fat % (US Navy)</h3>
+          <p>Coming soon.</p>
+        </div>
+        <div class="card card--disabled">
+          <h3>Water Intake</h3>
+          <p>Coming soon.</p>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Athletiq Calcs — data as the base of your training.</p>
+      <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="/script.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
