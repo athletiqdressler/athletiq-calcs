@@ -1,11 +1,11 @@
 :root {
-  --bg: #1A1A1A;             /* Dark grey Athletiq */
-  --bg-elevated: #232323;    /* Card background */
-  --border-subtle: #333333;
+  --bg: #F2F2F2;             /* Light grey Athletiq */
+  --bg-elevated: #FFFFFF;    /* Card background */
+  --border-subtle: #D4D4D4;
   --accent: #556B2F;         /* Moss / olive green */
-  --accent-soft: rgba(85, 107, 47, 0.22);
-  --text-main: #F2F2F2;
-  --text-muted: #B3B3B3;
+  --accent-soft: rgba(85, 107, 47, 0.12);
+  --text-main: #1A1A1A;
+  --text-muted: #666666;
 }
 
 /* BASIC RESET */
@@ -42,7 +42,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(26, 26, 26, 0.96);
+  background: rgba(242, 242, 242, 0.98);
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(10px);
 }
@@ -63,11 +63,11 @@ a:hover {
 .nav a {
   margin-left: 16px;
   font-size: 14px;
-  color: #d0d0d0;
+  color: #444444;
 }
 
 .nav a:hover {
-  color: #ffffff;
+  color: #000000;
 }
 
 /* HOME */
@@ -175,12 +175,12 @@ a:hover {
 }
 
 .calc-card {
-  flex: 0 0 360px;
+  flex: 0 0 380px;
   background: var(--bg-elevated);
   padding: 24px;
   border-radius: 12px;
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 }
 
 .calc-card label {
@@ -194,8 +194,8 @@ a:hover {
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 14px;
-  background: #151515;
-  border: 1px solid #3a3a3a;
+  background: #FAFAFA;
+  border: 1px solid #CCCCCC;
   color: var(--text-main);
   border-radius: 6px;
   font-size: 15px;
@@ -223,7 +223,7 @@ a:hover {
   background: var(--accent);
   border: none;
   border-radius: 999px;
-  color: #000;
+  color: #FFFFFF;
   font-weight: 600;
   cursor: pointer;
   margin-top: 4px;
@@ -231,15 +231,15 @@ a:hover {
 }
 
 .calc-btn:hover {
-  filter: brightness(1.06);
+  filter: brightness(1.03);
 }
 
 .result-box {
   margin-top: 18px;
   padding: 14px 16px;
-  background: #151515;
+  background: #FAFAFA;
   border-radius: 10px;
-  border: 1px solid #3a3a3a;
+  border: 1px solid #DDDDDD;
   font-size: 14px;
 }
 
@@ -254,7 +254,7 @@ a:hover {
   margin-top: 24px;
   padding: 16px;
   border-radius: 10px;
-  border: 1px dashed #3a3a3a;
+  border: 1px dashed #C8C8C8;
   background: radial-gradient(circle at top left, var(--accent-soft), transparent 60%);
   font-size: 13px;
 }
