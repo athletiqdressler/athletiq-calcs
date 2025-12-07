@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://athletiq-calcs.vercel.app/sitemap.xml
