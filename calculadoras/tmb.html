@@ -26,22 +26,30 @@
       <h1>BMR / TMB Calculator</h1>
       <p>
         Your basal metabolic rate estimates how many calories your body burns at complete rest.
-        Use this as the baseline to build your deficit or surplus.
+        This is the starting point for building a fat-loss deficit or a muscle-gain surplus.
       </p>
     </div>
 
     <div class="calc-layout">
       <section class="calc-meta">
-        <h2>How to use this number</h2>
+        <h2>What this calculator actually gives you</h2>
         <p>
-          • <strong>BMR</strong> is the baseline. Real daily expenditure is higher (TDEE).<br>
-          • For fat loss, people usually aim for <strong>300–500 kcal</strong> below TDEE.<br>
-          • For gaining muscle, <strong>200–400 kcal</strong> above TDEE, with serious training.
+          • <strong>BMR</strong> is your “engine idling” — calories burned if you did nothing all day.<br>
+          • Your real daily expenditure (TDEE) will be higher because of movement, training and NEAT.<br>
+          • BMR is not a “goal intake”; it's a reference number to plan around.
         </p>
+
+        <h2 style="margin-top:16px;">How to use it in practice</h2>
+        <ul>
+          <li>For fat loss: usually start around <strong>−300 to −500 kcal</strong> below your TDEE.</li>
+          <li>For gaining muscle: usually <strong>+200 to +400 kcal</strong> above your TDEE, with hard training.</li>
+          <li>Extreme deficits below BMR are usually unsustainable and not recommended long term.</li>
+        </ul>
+
         <div class="calc-cta">
           <p>
-            Athletiq will soon turn numbers like BMR, volume and performance into fully
-            generated training plans. Built for athletes, not casual apps.
+            Athletiq will use numbers like BMR, training volume and performance tests
+            to generate serious training plans — built for athletes, not casual workout apps.
           </p>
           <p><a href="#">Preview Athletiq →</a></p>
         </div>
@@ -57,6 +65,12 @@
         <label>Age</label>
         <input type="number" id="age" placeholder="Years">
 
+        <label>Measurement system</label>
+        <select id="system">
+          <option value="metric">Metric (kg, cm)</option>
+          <option value="imperial">Imperial (lb, ft/in)</option>
+        </select>
+
         <div class="inline-row">
           <div>
             <label>Weight</label>
@@ -64,24 +78,25 @@
           </div>
           <div>
             <label>Unit</label>
-            <select id="weightUnit">
-              <option value="kg">kg</option>
-              <option value="lb">lb</option>
-            </select>
+            <input type="text" id="weightUnitLabel" value="kg" disabled>
           </div>
         </div>
 
-        <div class="inline-row">
-          <div>
-            <label>Height</label>
-            <input type="number" id="height" placeholder="e.g. 175">
-          </div>
-          <div>
-            <label>Unit</label>
-            <select id="heightUnit">
-              <option value="cm">cm</option>
-              <option value="in">in</option>
-            </select>
+        <div id="metricHeightGroup">
+          <label>Height</label>
+          <input type="number" id="heightCm" placeholder="Centimeters (e.g. 175)">
+        </div>
+
+        <div id="imperialHeightGroup" style="display:none;">
+          <div class="inline-row">
+            <div>
+              <label>Height (ft)</label>
+              <input type="number" id="heightFt" placeholder="e.g. 5">
+            </div>
+            <div>
+              <label>Height (in)</label>
+              <input type="number" id="heightIn" placeholder="e.g. 10">
+            </div>
           </div>
         </div>
 
@@ -99,35 +114,64 @@
   </footer>
 
   <script>
+    const systemSelect = document.getElementById("system");
+    const weightUnitLabel = document.getElementById("weightUnitLabel");
+    const metricHeightGroup = document.getElementById("metricHeightGroup");
+    const imperialHeightGroup = document.getElementById("imperialHeightGroup");
+
+    systemSelect.addEventListener("change", () => {
+      const system = systemSelect.value;
+      if (system === "metric") {
+        weightUnitLabel.value = "kg";
+        metricHeightGroup.style.display = "block";
+        imperialHeightGroup.style.display = "none";
+      } else {
+        weightUnitLabel.value = "lb";
+        metricHeightGroup.style.display = "none";
+        imperialHeightGroup.style.display = "block";
+      }
+    });
+
     function calculateBMR() {
       const sex = document.getElementById("sex").value;
       const age = Number(document.getElementById("age").value);
+      const system = document.getElementById("system").value;
       let weight = Number(document.getElementById("weight").value);
-      let height = Number(document.getElementById("height").value);
-      const weightUnit = document.getElementById("weightUnit").value;
-      const heightUnit = document.getElementById("heightUnit").value;
 
-      if (!age || !weight || !height) {
-        alert("Fill in age, weight and height.");
+      if (!age || !weight) {
+        alert("Fill in age and weight.");
         return;
       }
 
-      // Convert weight to kg if necessary
-      if (weightUnit === "lb") {
+      let heightCm;
+
+      if (system === "metric") {
+        heightCm = Number(document.getElementById("heightCm").value);
+        if (!heightCm) {
+          alert("Fill in your height in centimeters.");
+          return;
+        }
+      } else {
+        const heightFt = Number(document.getElementById("heightFt").value);
+        const heightIn = Number(document.getElementById("heightIn").value);
+        if (!heightFt && !heightIn) {
+          alert("Fill in your height in feet and/or inches.");
+          return;
+        }
+        const totalInches = heightFt * 12 + heightIn;
+        heightCm = totalInches * 2.54;
+      }
+
+      // convert weight to kg if imperial
+      if (system === "imperial") {
         weight = weight * 0.45359237;
       }
 
-      // Convert height to cm if necessary
-      if (heightUnit === "in") {
-        height = height * 2.54;
-      }
-
       let bmr;
-
       if (sex === "male") {
-        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+        bmr = 10 * weight + 6.25 * heightCm - 5 * age + 5;
       } else {
-        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+        bmr = 10 * weight + 6.25 * heightCm - 5 * age - 161;
       }
 
       const resultBox = document.getElementById("result");
@@ -135,9 +179,10 @@
       resultBox.innerHTML = `
         <h3>Your estimated BMR</h3>
         <p><strong>${Math.round(bmr)} kcal/day</strong></p>
-        <p style="margin-top:8px;color:#B3B3B3;font-size:13px;">
-          This is your energy expenditure at rest. To estimate your total daily expenditure,
-          multiply this number by an activity factor (TDEE).
+        <p style="margin-top:8px;color:#666;font-size:13px;">
+          This is your expected energy expenditure at rest. To move from “number”
+          to “plan”, combine it with your activity level (TDEE) and a clear goal
+          for the next 8–12 weeks.
         </p>
       `;
     }
