@@ -4,47 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Athletiq Calculadoras</title>
+  <meta name="description" content="Coleção de calculadoras gratuitas de saúde, nutrição, corrida e treino para atletas e praticantes de atividade física.">
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
   <header class="site-header">
-    <div class="container">
+    <div class="container header-inner">
       <div class="logo">ATHLETIQ CALCS</div>
       <nav class="nav">
         <a href="#nutricao">Nutrição</a>
         <a href="#corrida">Corrida</a>
         <a href="#forca">Força</a>
+        <a href="#cardio">Cardio</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1>Athletiq Calculadoras</h1>
-    <p>Coleção de calculadoras gratuitas para saúde, nutrição, corrida e treino.</p>
+  <main class="container main-content">
+    <section class="hero">
+      <h1>Calculadoras para treinar com números, não achismo.</h1>
+      <p class="hero-subtitle">
+        Use dados de TMB, calorias, IMC, pace, VO<sub>2</sub>, força e volume de treino
+        para tomar decisões melhores em saúde, nutrição e performance.
+      </p>
+    </section>
 
-    <section id="nutricao">
+    <section id="nutricao" class="cluster">
       <h2>Nutrição e Metabolismo</h2>
-      <ul>
-        <li><a href="/calculadoras/tmb.html">Calculadora de TMB</a></li>
-        <!-- depois vamos adicionar TDEE, IMC, etc -->
+      <p>Calcule gasto energético, necessidades calóricas e ingestão básica.</p>
+      <ul class="link-list">
+        <li><a href="/calculadoras/tmb.html">Calculadora de TMB (Taxa Metabólica Basal)</a></li>
+        <li><a href="#">Calculadora de Calorias Totais (TDEE)</a></li>
+        <li><a href="#">Calculadora de IMC</a></li>
+        <li><a href="#">Proteína diária (g/kg)</a></li>
+        <li><a href="#">Água diária recomendada</a></li>
       </ul>
     </section>
 
-    <section id="corrida">
-      <h2>Corrida</h2>
-      <ul>
+    <section id="corrida" class="cluster">
+      <h2>Corrida e Ritmo</h2>
+      <p>Transforme tempo e distância em pace e velocidade útil de treino.</p>
+      <ul class="link-list">
         <li><a href="#">Calculadora de Pace</a></li>
         <li><a href="#">Conversor km/h ↔ Pace</a></li>
+        <li><a href="#">Ritmo ideal para 5k, 10k, 21k</a></li>
       </ul>
     </section>
 
-    <section id="forca">
-      <h2>Força e Academia</h2>
-      <ul>
+    <section id="forca" class="cluster">
+      <h2>Força e Volume de Treino</h2>
+      <p>Planeje carga, 1RM e volume semanal para hipertrofia e performance.</p>
+      <ul class="link-list">
         <li><a href="#">Calculadora de 1RM</a></li>
+        <li><a href="#">RPE × % de 1RM</a></li>
+        <li><a href="#">Volume de treino (kg por sessão)</a></li>
+      </ul>
+    </section>
+
+    <section id="cardio" class="cluster">
+      <h2>Cardio, VO₂ e HIIT</h2>
+      <p>Use testes clássicos e timers para estruturar sessões de cardio sério.</p>
+      <ul class="link-list">
+        <li><a href="#">Zonas de frequência cardíaca</a></li>
+        <li><a href="#">Teste de Cooper (VO₂ estimado)</a></li>
+        <li><a href="#">Timer Tabata / HIIT</a></li>
       </ul>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Athletiq Calcs — base de dados para treinos mais inteligentes.</p>
+    </div>
+  </footer>
 
   <script src="/script.js"></script>
 </body>
