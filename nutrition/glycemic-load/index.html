@@ -1,68 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glycemic Load Calculator | Athletiq Calcs</title>
-    <meta name="description" content="Calculate Glycemic Load (GL) using glycemic index and carbohydrate quantity. Essential for glucose control and athletic fueling.">
-    <link rel="stylesheet" href="../../style.css">
+  <meta charset="UTF-8" />
+  <title>Glycemic Load Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate the glycemic load (GL) of any food using GI and carb quantity to optimize glucose control and fueling.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
+
 <body>
 
-<div class="container">
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#nutrition">Nutrition</a></nav>
+  </div>
+</header>
 
-    <main>
-        <h1>Glycemic Load Calculator</h1>
-        <p class="desc">Enter GI and grams of carbs to calculate glycemic load instantly.</p>
+<main class="page container two-columns">
 
-        <form id="calcForm">
-            <label>Glycemic Index (GI)</label>
-            <input type="number" id="gi" required>
+  <!-- LEFT -->
+  <section class="content">
+    <h1>Glycemic Load Calculator</h1>
+    <p class="page-intro">Determine the real glycemic impact of a serving using GI and carbohydrate content.</p>
 
-            <label>Carbs (g)</label>
-            <input type="number" id="carbs" required>
+    <form id="calcForm" class="calc-form">
 
-            <button type="button" onclick="runCalculator()">Calculate</button>
-        </form>
+      <label>Glycemic Index (GI)</label>
+      <input type="number" id="gi" required />
 
-        <div id="result" class="resultBox"></div>
-    </main>
+      <label>Carbohydrates (g)</label>
+      <input type="number" id="carbs" required />
 
-    <aside>
-        <h2>How it works</h2>
-        <p>GL = (GI × grams of carbohydrates) ÷ 100. It measures the actual blood-sugar impact of a serving.</p>
+      <button type="button" class="btn-primary" onclick="runCalculator()">Calculate</button>
 
-        <h2>How to interpret</h2>
-        <p>Low GL &lt; 10, Medium 10–19, High ≥ 20. Athletes may use higher GL for fueling prior to training.</p>
+    </form>
 
-        <h2>Related calculators</h2>
-        <ul>
-            <li><a href="../bmr-tdee/">BMR / TDEE</a></li>
-            <li><a href="../daily-calories/">Daily Calories</a></li>
-            <li><a href="../ideal-weight/">Ideal Weight</a></li>
-            <li><a href="../protein-intake/">Protein Intake</a></li>
-            <li><a href="../water-intake/">Water Intake</a></li>
-        </ul>
-    </aside>
+    <div id="result" class="result-box"></div>
+  </section>
 
-</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-box">
+      <h2>How it works</h2>
+      <p>GL = (GI × grams of carbs) ÷ 100. Range defines low, medium, or high glycemic load.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>How to interpret</h2>
+      <p>Low: &lt;10, Medium: 10–19, High: ≥20. Athletes may use high GL pre-training.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>Related calculators</h2>
+      <ul class="related-list">
+        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
+        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
+        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
+        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
+        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
+      </ul>
+    </div>
+
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
 
 <script>
-function runCalculator() {
-    const gi = Number(document.getElementById('gi').value);
-    const c = Number(document.getElementById('carbs').value);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function runCalculator() {
+    const gi = Number(document.getElementById("gi").value);
+    const c  = Number(document.getElementById("carbs").value);
 
     const gl = (gi * c) / 100;
+    let category = gl < 10 ? "Low" : gl < 20 ? "Medium" : "High";
 
-    let category = "";
-    if (gl < 10) category = "Low";
-    else if (gl < 20) category = "Medium";
-    else category = "High";
-
-    document.getElementById('result').innerHTML = `
-        <p><strong>Glycemic Load:</strong> ${gl.toFixed(1)} (${category})</p>
+    document.getElementById("result").innerHTML = `
+      <p><strong>Glycemic Load:</strong> ${gl.toFixed(1)} (${category})</p>
     `;
-}
+  }
 </script>
 
 </body>

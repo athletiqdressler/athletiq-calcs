@@ -1,66 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiber Intake Calculator | Athletiq Calcs</title>
-    <meta name="description" content="Calculate optimal daily fiber intake for gut health, digestion, and performance.">
-    <link rel="stylesheet" href="../../style.css">
+  <meta charset="UTF-8" />
+  <title>Fiber Intake Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Estimate optimal daily fiber intake using calorie intake or body weight for gut health and performance.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
+
 <body>
 
-<div class="container">
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#nutrition">Nutrition</a></nav>
+  </div>
+</header>
 
-    <main>
-        <h1>Fiber Intake Calculator</h1>
-        <p class="desc">Estimate your ideal daily fiber intake based on calorie intake or body weight.</p>
+<main class="page container two-columns">
 
-        <form id="calcForm">
-            <label>Calorie Intake (kcal)</label>
-            <input type="number" id="cal" required>
+  <!-- LEFT -->
+  <section class="content">
+    <h1>Fiber Intake Calculator</h1>
+    <p class="page-intro">Estimate your ideal daily fiber intake from two validated models.</p>
 
-            <label>Weight (kg)</label>
-            <input type="number" id="weight" required>
+    <form id="calcForm" class="calc-form">
 
-            <button type="button" onclick="runCalculator()">Calculate</button>
-        </form>
+      <label>Daily Calories (kcal)</label>
+      <input type="number" id="cal" required />
 
-        <div id="result" class="resultBox"></div>
-    </main>
+      <label>Weight (kg)</label>
+      <input type="number" id="weight" required />
 
-    <aside>
-        <h2>How it works</h2>
-        <p>Two models are used: 14g of fiber per 1000 kcal, or 0.25–0.35g/kg of body weight.</p>
+      <button type="button" class="btn-primary" onclick="runCalculator()">Calculate</button>
 
-        <h2>How to interpret</h2>
-        <p>Hitting the lower end improves digestion; higher intake improves satiety and glucose control.</p>
+    </form>
 
-        <h2>Related calculators</h2>
-        <ul>
-            <li><a href="../bmr-tdee/">BMR / TDEE</a></li>
-            <li><a href="../daily-calories/">Daily Calories</a></li>
-            <li><a href="../ideal-weight/">Ideal Weight</a></li>
-            <li><a href="../protein-intake/">Protein Intake</a></li>
-            <li><a href="../water-intake/">Water Intake</a></li>
-        </ul>
-    </aside>
+    <div id="result" class="result-box"></div>
+  </section>
 
-</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-box">
+      <h2>How it works</h2>
+      <p>We compute 14g per 1000 kcal + 0.25–0.35g/kg weight ranges.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>How to interpret</h2>
+      <p>Lower intake supports digestion. Higher intake enhances satiety and glucose control.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>Related calculators</h2>
+      <ul class="related-list">
+        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
+        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
+        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
+        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
+        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
+      </ul>
+    </div>
+
+  </aside>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
 
 <script>
-function runCalculator() {
-    const cal = Number(document.getElementById('cal').value);
-    const w = Number(document.getElementById('weight').value);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function runCalculator() {
+    const cal = Number(document.getElementById("cal").value);
+    const w   = Number(document.getElementById("weight").value);
 
     const method1 = (cal / 1000) * 14;
     const method2min = w * 0.25;
     const method2max = w * 0.35;
 
-    document.getElementById('result').innerHTML = `
-        <p><strong>Fiber by calories:</strong> ${method1.toFixed(1)} g/day</p>
-        <p><strong>Fiber by weight:</strong> ${method2min.toFixed(1)}–${method2max.toFixed(1)} g/day</p>
+    document.getElementById("result").innerHTML = `
+      <p><strong>Fiber by calories:</strong> ${method1.toFixed(1)} g/day</p>
+      <p><strong>Fiber by weight:</strong> ${method2min.toFixed(1)} – ${method2max.toFixed(1)} g/day</p>
     `;
-}
+  }
 </script>
 
 </body>

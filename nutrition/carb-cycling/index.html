@@ -1,81 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carb Cycling Planner | Athletiq Calcs</title>
-    <meta name="description" content="Generate a weekly carb cycling plan using your TDEE and training intensity pattern.">
-    <link rel="stylesheet" href="../../style.css">
+  <meta charset="UTF-8" />
+  <title>Carb Cycling Planner | Athletiq Calcs</title>
+  <meta name="description" content="Generate a weekly carb-cycling plan using your TDEE and training intensity pattern.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
+
 <body>
 
-<div class="container">
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#nutrition">Nutrition</a></nav>
+  </div>
+</header>
 
-    <main>
-        <h1>Carb Cycling Planner</h1>
-        <p class="desc">Generate low, medium, and high-carb days based on TDEE and training intensity.</p>
+<main class="page container two-columns">
 
-        <form id="calcForm">
-            <label>TDEE (kcal)</label>
-            <input type="number" id="tdee" required>
+  <!-- LEFT -->
+  <section class="content">
+    <h1>Carb Cycling Planner</h1>
+    <p class="page-intro">Create low, medium, and high-carb days based on your TDEE and training load.</p>
 
-            <label>Training Intensity</label>
-            <select id="intensity">
-                <option value="low">Mostly Low</option>
-                <option value="balanced">Balanced</option>
-                <option value="high">Mostly High</option>
-            </select>
+    <form id="calcForm" class="calc-form">
 
-            <button type="button" onclick="runCalculator()">Generate Plan</button>
-        </form>
+      <label>TDEE (kcal)</label>
+      <input type="number" id="tdee" required />
 
-        <div id="result" class="resultBox"></div>
-    </main>
+      <label>Training Intensity</label>
+      <select id="intensity">
+        <option value="low">Mostly Low</option>
+        <option value="balanced">Balanced</option>
+        <option value="high">Mostly High</option>
+      </select>
 
-    <aside>
-        <h2>How it works</h2>
-        <p>Carb cycling assigns different carb percentages: low (20–30%), medium (35–45%), high (50–60%).</p>
+      <button type="button" class="btn-primary" onclick="runCalculator()">Generate Plan</button>
 
-        <h2>How to interpret</h2>
-        <p>Higher carb days align with intense training. Lower carb days improve metabolic flexibility.</p>
+    </form>
 
-        <h2>Related calculators</h2>
-        <ul>
-            <li><a href="../bmr-tdee/">BMR / TDEE</a></li>
-            <li><a href="../daily-calories/">Daily Calories</a></li>
-            <li><a href="../protein-intake/">Protein Intake</a></li>
-            <li><a href="../fiber-intake/">Fiber Intake</a></li>
-            <li><a href="../water-intake/">Water Intake</a></li>
-        </ul>
-    </aside>
+    <div id="result" class="result-box"></div>
+  </section>
 
-</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-box">
+      <h2>How it works</h2>
+      <p>Carb % by day: Low (20–30%), Medium (35–45%), High (50–60%). Converts into grams.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>How to interpret</h2>
+      <p>High-carb days align with hard sessions. Low-carb days promote metabolic flexibility.</p>
+    </div>
+
+    <div class="sidebar-box">
+      <h2>Related calculators</h2>
+      <ul class="related-list">
+        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
+        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
+        <li><a href="/nutrition/macros/">Macro Calculator</a></li>
+        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
+        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
+      </ul>
+    </div>
+
+  </aside>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
 
 <script>
-function runCalculator() {
-    const t = Number(document.getElementById('tdee').value);
-    const i = document.getElementById('intensity').value;
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function runCalculator() {
+    const t = Number(document.getElementById("tdee").value);
+    const i = document.getElementById("intensity").value;
 
     let low, med, high;
+    if (i === "low")      { low = 0.30; med = 0.40; high = 0.50; }
+    if (i === "balanced") { low = 0.25; med = 0.40; high = 0.55; }
+    if (i === "high")     { low = 0.20; med = 0.35; high = 0.60; }
 
-    if (i === "low") {
-        low = 0.30; med = 0.40; high = 0.50;
-    } else if (i === "balanced") {
-        low = 0.25; med = 0.40; high = 0.55;
-    } else {
-        low = 0.20; med = 0.35; high = 0.60;
-    }
-
-    const lowCarbs = (t * low) / 4;
-    const medCarbs = (t * med) / 4;
+    const lowCarbs  = (t * low) / 4;
+    const medCarbs  = (t * med) / 4;
     const highCarbs = (t * high) / 4;
 
-    document.getElementById('result').innerHTML = `
-        <p><strong>Low-carb day:</strong> ${lowCarbs.toFixed(0)}g</p>
-        <p><strong>Medium-carb day:</strong> ${medCarbs.toFixed(0)}g</p>
-        <p><strong>High-carb day:</strong> ${highCarbs.toFixed(0)}g</p>
+    document.getElementById("result").innerHTML = `
+      <p><strong>Low-carb day:</strong> ${lowCarbs.toFixed(0)} g</p>
+      <p><strong>Medium-carb day:</strong> ${medCarbs.toFixed(0)} g</p>
+      <p><strong>High-carb day:</strong> ${highCarbs.toFixed(0)} g</p>
     `;
-}
+  }
 </script>
 
 </body>
