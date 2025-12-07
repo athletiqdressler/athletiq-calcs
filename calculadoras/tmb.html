@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BMR / TMB Calculator – Athletiq</title>
-  <meta name="description" content="Calculate your basal metabolic rate (BMR / TMB) in metric or imperial units using the Mifflin-St Jeor equation.">
+  <title>Calorie, BMR & TDEE Calculator – Athletiq</title>
+  <meta name="description" content="Calculate your BMR (basal metabolic rate) and TDEE (total daily energy expenditure) in metric or imperial units using the Mifflin-St Jeor equation and standard activity multipliers.">
   <link rel="stylesheet" href="/style.css" />
 </head>
 
@@ -23,38 +23,51 @@
 
   <main class="container main-content">
     <div class="calc-header">
-      <h1>BMR / TMB Calculator</h1>
+      <h1>Calorie, BMR & TDEE Calculator</h1>
       <p>
-        Your basal metabolic rate estimates how many calories your body burns at complete rest.
-        This is the starting point for building a fat-loss deficit or a muscle-gain surplus.
+        Estimate your basal metabolic rate (BMR) and total daily energy expenditure (TDEE),
+        then see clear calorie targets for fat loss, maintenance and muscle gain — in
+        metric or imperial units.
       </p>
     </div>
 
     <div class="calc-layout">
+      <!-- EXPLANATION / EDUCATION -->
       <section class="calc-meta">
-        <h2>What this calculator actually gives you</h2>
+        <h2>What these numbers actually mean</h2>
         <p>
-          • <strong>BMR</strong> is your “engine idling” — calories burned if you did nothing all day.<br>
-          • Your real daily expenditure (TDEE) will be higher because of movement, training and NEAT.<br>
-          • BMR is not a “goal intake”; it's a reference number to plan around.
+          <strong>BMR</strong> is the energy your body uses at complete rest — keeping you alive,
+          not moving, not training. <strong>TDEE</strong> adjusts that number up based on how much
+          you move and train during the day.
         </p>
-
-        <h2 style="margin-top:16px;">How to use it in practice</h2>
         <ul>
-          <li>For fat loss: usually start around <strong>−300 to −500 kcal</strong> below your TDEE.</li>
-          <li>For gaining muscle: usually <strong>+200 to +400 kcal</strong> above your TDEE, with hard training.</li>
-          <li>Extreme deficits below BMR are usually unsustainable and not recommended long term.</li>
+          <li><strong>BMR</strong>: baseline “engine idling” calories.</li>
+          <li><strong>TDEE</strong>: BMR × activity factor (your real daily needs).</li>
+          <li><strong>Targets</strong>: we apply small surpluses/deficits around TDEE.</li>
         </ul>
+
+        <h2 style="margin-top:16px;">How to use this in real life</h2>
+        <ul>
+          <li>Start around <strong>TDEE − 300 to − 500 kcal</strong> for sustainable fat loss.</li>
+          <li>Use <strong>TDEE + 200 to + 400 kcal</strong> for lean muscle gain with hard training.</li>
+          <li>Stay near <strong>TDEE</strong> when performance and recovery are the priority.</li>
+        </ul>
+
+        <p style="margin-top:8px;font-size:13px;color:#666;">
+          Numbers are a starting point, not a religion. Track body weight, performance and
+          how you feel over 2–3 weeks, then adjust.
+        </p>
 
         <div class="calc-cta">
           <p>
-            Athletiq will use numbers like BMR, training volume and performance tests
-            to generate serious training plans — built for athletes, not casual workout apps.
+            Athletiq will connect metrics like BMR, TDEE, training volume and test results
+            to build serious training plans — no random workouts, no influencer bullshit.
           </p>
           <p><a href="#">Preview Athletiq →</a></p>
         </div>
       </section>
 
+      <!-- CALCULATOR CARD -->
       <section class="calc-card">
         <label>Sex</label>
         <select id="sex">
@@ -100,7 +113,16 @@
           </div>
         </div>
 
-        <button class="calc-btn" onclick="calculateBMR()">Calculate BMR</button>
+        <label>Activity level</label>
+        <select id="activity">
+          <option value="1.2">Sedentary – little or no exercise</option>
+          <option value="1.375">Light – 1–3 training days/week</option>
+          <option value="1.55">Moderate – 3–5 training days/week</option>
+          <option value="1.725">Hard – 6–7 intense sessions/week</option>
+          <option value="1.9">Athlete – 2x/day or physical job</option>
+        </select>
+
+        <button class="calc-btn" onclick="calculateMetabolism()">Calculate</button>
 
         <div id="result" class="result-box" style="display:none;"></div>
       </section>
@@ -132,14 +154,15 @@
       }
     });
 
-    function calculateBMR() {
+    function calculateMetabolism() {
       const sex = document.getElementById("sex").value;
       const age = Number(document.getElementById("age").value);
       const system = document.getElementById("system").value;
       let weight = Number(document.getElementById("weight").value);
+      const activity = Number(document.getElementById("activity").value);
 
-      if (!age || !weight) {
-        alert("Fill in age and weight.");
+      if (!age || !weight || !activity) {
+        alert("Fill in age, weight and activity level.");
         return;
       }
 
@@ -162,11 +185,12 @@
         heightCm = totalInches * 2.54;
       }
 
-      // convert weight to kg if imperial
+      // Convert weight to kg if imperial
       if (system === "imperial") {
         weight = weight * 0.45359237;
       }
 
+      // Mifflin–St Jeor
       let bmr;
       if (sex === "male") {
         bmr = 10 * weight + 6.25 * heightCm - 5 * age + 5;
@@ -174,15 +198,31 @@
         bmr = 10 * weight + 6.25 * heightCm - 5 * age - 161;
       }
 
+      const tdee = bmr * activity;
+
+      // Targets
+      const maintenance = Math.round(tdee);
+      const cutModerate = Math.round(tdee - 300);
+      const cutAggressive = Math.round(tdee - 500);
+      const bulkLean = Math.round(tdee + 250);
+      const bulkPerformance = Math.round(tdee + 400);
+
       const resultBox = document.getElementById("result");
       resultBox.style.display = "block";
       resultBox.innerHTML = `
-        <h3>Your estimated BMR</h3>
-        <p><strong>${Math.round(bmr)} kcal/day</strong></p>
+        <h3>Your numbers</h3>
+        <p><strong>BMR:</strong> ${Math.round(bmr)} kcal/day (resting)</p>
+        <p><strong>TDEE:</strong> ${maintenance} kcal/day (maintenance estimate)</p>
+        <h3 style="margin-top:10px;">Suggested calorie targets</h3>
+        <ul style="padding-left:18px;margin:6px 0;">
+          <li><strong>Moderate fat loss:</strong> ${cutModerate} kcal/day (≈ −300)</li>
+          <li><strong>Aggressive fat loss:</strong> ${cutAggressive} kcal/day (≈ −500)</li>
+          <li><strong>Lean muscle gain:</strong> ${bulkLean} kcal/day (≈ +250)</li>
+          <li><strong>Performance bulk:</strong> ${bulkPerformance} kcal/day (≈ +400)</li>
+        </ul>
         <p style="margin-top:8px;color:#666;font-size:13px;">
-          This is your expected energy expenditure at rest. To move from “number”
-          to “plan”, combine it with your activity level (TDEE) and a clear goal
-          for the next 8–12 weeks.
+          Treat these as starting points. Track your bodyweight and performance for
+          2–3 weeks and then adjust up or down by 100–200 kcal if needed.
         </p>
       `;
     }
