@@ -3,10 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de TMB (Taxa Metabólica Basal) – Athletiq</title>
-  <meta name="description" content="Calcule sua taxa metabólica basal (TMB) em poucos segundos usando fórmulas validadas, base para montar dieta e treino.">
+  <title>Calculadora de TMB – Athletiq</title>
+
   <link rel="stylesheet" href="/style.css" />
+  <style>
+    .calc-card {
+      background: #111215;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid #1d1e22;
+      max-width: 480px;
+      margin-top: 24px;
+    }
+    .calc-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .calc-card input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 14px;
+      background: #0c0d10;
+      border: 1px solid #2a2c31;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+    .calc-btn {
+      width: 100%;
+      padding: 12px;
+      background: #7fda89;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: #0c0d10;
+      border: 1px solid #2a2c31;
+      border-radius: 6px;
+    }
+  </style>
 </head>
+
 <body>
   <header class="site-header">
     <div class="container header-inner">
@@ -21,20 +65,65 @@
   </header>
 
   <main class="container main-content">
-    <section class="calc">
-      <h1>Calculadora de TMB</h1>
-      <p class="hero-subtitle">
-        Nesta página vamos calcular sua Taxa Metabólica Basal. No próximo bloco, vamos ativar o formulário e o cálculo.
-      </p>
-    </section>
+    <h1>Calculadora de TMB</h1>
+    <p class="hero-subtitle">
+      A TMB (Taxa Metabólica Basal) estima quantas calorias seu corpo gasta em repouso total.
+    </p>
+
+    <div class="calc-card">
+      <label>Sexo</label>
+      <select id="sexo">
+        <option value="masc">Masculino</option>
+        <option value="fem">Feminino</option>
+      </select>
+
+      <label>Idade (anos)</label>
+      <input type="number" id="idade" placeholder="Ex: 20">
+
+      <label>Peso (kg)</label>
+      <input type="number" id="peso" placeholder="Ex: 70">
+
+      <label>Altura (cm)</label>
+      <input type="number" id="altura" placeholder="Ex: 175">
+
+      <button class="calc-btn" onclick="calcularTMB()">Calcular TMB</button>
+
+      <div id="resultado" class="result-box" style="display:none;"></div>
+    </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Athletiq Calcs — base de dados para treinos mais inteligentes.</p>
+      <p>Athletiq Calcs — treinos guiados por dados.</p>
     </div>
   </footer>
 
-  <script src="/script.js"></script>
+  <script>
+    function calcularTMB() {
+      const sexo = document.getElementById("sexo").value;
+      const idade = Number(document.getElementById("idade").value);
+      const peso = Number(document.getElementById("peso").value);
+      const altura = Number(document.getElementById("altura").value);
+
+      if (!idade || !peso || !altura) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      let tmb;
+
+      if (sexo === "masc") {
+        tmb = 10 * peso + 6.25 * altura - 5 * idade + 5;
+      } else {
+        tmb = 10 * peso + 6.25 * altura - 5 * idade - 161;
+      }
+
+      document.getElementById("resultado").style.display = "block";
+      document.getElementById("resultado").innerHTML = `
+        <h3>Seu TMB estimado:</h3>
+        <p><strong>${Math.round(tmb)} kcal/dia</strong></p>
+      `;
+    }
+  </script>
 </body>
 </html>
