@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BMI Calculator | Athletiq Calcs</title>
+  <meta
+    name="description"
+    content="Quickly calculate your Body Mass Index (BMI) and see your weight category using metric or imperial units."
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Athletiq Calcs</a>
+      <nav class="main-nav">
+        <a href="/#nutrition">Nutrition</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container calculator-layout">
+      <section class="calculator">
+        <h1>BMI Calculator</h1>
+        <p class="lead">
+          Calculate your Body Mass Index and see which weight category you fall into, using metric or imperial units.
+        </p>
+
+        <form id="calculator-form">
+          <div class="form-field">
+            <label for="weight">Weight</label>
+            <input type="number" id="weight" min="1" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <label for="weightUnit">Weight unit</label>
+            <select id="weightUnit">
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="height">Height</label>
+            <input type="number" id="height" min="50" max="250" />
+          </div>
+
+          <div class="form-field">
+            <label for="heightUnit">Height unit</label>
+            <select id="heightUnit">
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary">Calculate</button>
+        </form>
+
+        <div id="result" class="result-block">
+          <p>Enter your weight and height to calculate your BMI.</p>
+        </div>
+
+        <section class="related">
+          <h2>Related calculators</h2>
+          <ul>
+            <li><a href="/nutrition/bmr-tdee/index.html">BMR and TDEE</a></li>
+            <li><a href="/nutrition/body-fat-us-navy/index.html">Body Fat % (US Navy)</a></li>
+          </ul>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section>
+          <h2>How it works</h2>
+          <p>
+            BMI is calculated by dividing your weight in kilograms by your height in meters squared. It is a simple
+            screening tool to classify underweight, normal weight, overweight and obesity.
+          </p>
+        </section>
+        <section>
+          <h2>How to interpret the results</h2>
+          <p>
+            A BMI between 18.5 and 24.9 is usually considered “normal”. Values below 18.5 suggest underweight; between
+            25 and 29.9 suggest overweight; 30 or above indicate obesity. BMI does not account for muscle mass or body
+            composition.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    function runCalculator() {
+      const weight = parseFloat(document.getElementById("weight").value);
+      const weightUnit = document.getElementById("weightUnit").value;
+      const height = parseFloat(document.getElementById("height").value);
+      const heightUnit = document.getElementById("heightUnit").value;
+      const resultDiv = document.getElementById("result");
+
+      if (!weight || !height || weight <= 0 || height <= 0) {
+        resultDiv.innerHTML = "<p>Please fill in all fields with valid values.</p>";
+        return;
+      }
+
+      const weightKg = weightUnit === "kg" ? weight : weight * 0.453592;
+      let heightM;
+
+      if (heightUnit === "cm") {
+        heightM = height / 100;
+      } else {
+        heightM = height;
+      }
+
+      const bmi = weightKg / (heightM * heightM);
+
+      let category;
+      if (bmi < 18.5) category = "Underweight";
+      else if (bmi < 25) category = "Normal weight";
+      else if (bmi < 30) category = "Overweight";
+      else category = "Obesity";
+
+      resultDiv.innerHTML = `
+        <p><strong>BMI:</strong> ${bmi.toFixed(1)}</p>
+        <p><strong>Category:</strong> ${category}</p>
+      `;
+    }
+
+    document.getElementById("calculator-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runCalculator();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

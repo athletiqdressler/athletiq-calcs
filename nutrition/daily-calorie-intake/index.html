@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Calorie Intake Calculator | Athletiq Calcs</title>
+  <meta
+    name="description"
+    content="Find out how many calories you should eat per day to lose fat, maintain weight or build muscle based on your BMR and activity level."
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Athletiq Calcs</a>
+      <nav class="main-nav">
+        <a href="/#nutrition">Nutrition</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container calculator-layout">
+      <section class="calculator">
+        <h1>Daily Calorie Intake Calculator</h1>
+        <p class="lead">
+          Estimate how many calories you should eat per day to lose fat, maintain your weight or build muscle, based on
+          the Mifflin-St Jeor equation and your activity level.
+        </p>
+
+        <form id="calculator-form">
+          <div class="form-field">
+            <label for="sex">Sex</label>
+            <select id="sex">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" min="10" max="90" />
+          </div>
+
+          <div class="form-field">
+            <label for="weight">Weight</label>
+            <input type="number" id="weight" min="1" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <label for="weightUnit">Weight unit</label>
+            <select id="weightUnit">
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" min="50" max="250" />
+          </div>
+
+          <div class="form-field">
+            <label for="activityLevel">Activity level</label>
+            <select id="activityLevel">
+              <option value="1.2">Sedentary</option>
+              <option value="1.375">Light (1–3 days/week)</option>
+              <option value="1.55">Moderate (3–5 days/week)</option>
+              <option value="1.725">Very active (6–7 days/week)</option>
+              <option value="1.9">Extra active</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="goal">Goal</label>
+            <select id="goal">
+              <option value="lose">Lose fat</option>
+              <option value="maintain">Maintain weight</option>
+              <option value="gain">Build muscle</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary">Calculate</button>
+        </form>
+
+        <div id="result" class="result-block">
+          <p>Fill in your data and choose a goal to get your daily calorie target.</p>
+        </div>
+
+        <section class="related">
+          <h2>Related calculators</h2>
+          <ul>
+            <li><a href="/nutrition/bmr-tdee/index.html">BMR and TDEE</a></li>
+            <li><a href="/nutrition/macros/index.html">Macro Calculator</a></li>
+          </ul>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section>
+          <h2>How it works</h2>
+          <p>
+            First, the calculator uses the Mifflin-St Jeor equation to estimate your BMR. Then it multiplies it by an
+            activity factor to estimate your TDEE and adjusts the result according to your goal.
+          </p>
+        </section>
+        <section>
+          <h2>How to interpret the results</h2>
+          <p>
+            The suggested calories are an estimate, not a rigid rule. Track your weight and adjust intake gradually if
+            you are not progressing as expected. Combine the plan with resistance training and adequate sleep.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    function calculateBmr(sex, age, weightKg, heightCm) {
+      if (sex === "male") {
+        return 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
+      }
+      return 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+    }
+
+    function runCalculator() {
+      const sex = document.getElementById("sex").value;
+      const age = parseFloat(document.getElementById("age").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const weightUnit = document.getElementById("weightUnit").value;
+      const height = parseFloat(document.getElementById("height").value);
+      const activityLevel = parseFloat(document.getElementById("activityLevel").value);
+      const goal = document.getElementById("goal").value;
+      const resultDiv = document.getElementById("result");
+
+      if (!age || !weight || !height || age <= 0 || weight <= 0 || height <= 0) {
+        resultDiv.innerHTML = "<p>Please fill in all fields with valid values.</p>";
+        return;
+      }
+
+      const weightKg = weightUnit === "kg" ? weight : weight * 0.453592;
+      const heightCm = height;
+
+      const bmr = calculateBmr(sex, age, weightKg, heightCm);
+      const tdee = bmr * activityLevel;
+
+      let targetCalories;
+      if (goal === "lose") {
+        targetCalories = tdee * 0.8; // -20%
+      } else if (goal === "maintain") {
+        targetCalories = tdee;
+      } else {
+        targetCalories = tdee * 1.1; // +10%
+      }
+
+      resultDiv.innerHTML = `
+        <p><strong>BMR:</strong> ${bmr.toFixed(0)} kcal/day</p>
+        <p><strong>TDEE:</strong> ${tdee.toFixed(0)} kcal/day</p>
+        <p><strong>Target intake for your goal:</strong> ${targetCalories.toFixed(
+          0
+        )} kcal/day</p>
+      `;
+    }
+
+    document.getElementById("calculator-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runCalculator();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

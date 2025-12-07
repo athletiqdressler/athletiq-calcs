@@ -10,18 +10,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
+
 <body>
+  <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="/" class="logo">Athletiq Calcs</a>
       <nav class="main-nav">
         <a href="#nutrition">Nutrition</a>
-        <!-- futuros clusters: Running, Strength, Finance, etc. -->
       </nav>
     </div>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="page">
+    <!-- HERO -->
     <section class="hero container">
       <h1>Precision calculators for serious results.</h1>
       <p class="hero-subtitle">
@@ -29,50 +32,66 @@
       </p>
     </section>
 
+    <!-- NUTRITION SECTION -->
     <section id="nutrition" class="section container">
       <h2>Nutrition calculators</h2>
       <p class="section-intro">
         Core tools to estimate your energy needs, body composition and hydration.
       </p>
+
       <div class="card-grid">
+
+        <!-- BMR & TDEE -->
         <a class="card" href="/nutrition/bmr-tdee/index.html">
           <h3>BMR and TDEE</h3>
           <p>Estimate your basal metabolism and total daily energy expenditure.</p>
         </a>
-        <!-- placeholders para os próximos do dia 1 -->
-        <div class="card card--disabled">
+
+        <!-- BMI -->
+        <a class="card" href="/nutrition/bmi/index.html">
           <h3>BMI Calculator</h3>
-          <p>Coming soon.</p>
-        </div>
-        <div class="card card--disabled">
+          <p>Check your Body Mass Index and weight category.</p>
+        </a>
+
+        <!-- DAILY CALORIE INTAKE -->
+        <a class="card" href="/nutrition/daily-calorie-intake/index.html">
           <h3>Daily Calorie Intake</h3>
-          <p>Coming soon.</p>
-        </div>
-        <div class="card card--disabled">
+          <p>Find your calorie target for fat loss, maintenance or muscle gain.</p>
+        </a>
+
+        <!-- MACROS -->
+        <a class="card" href="/nutrition/macros/index.html">
           <h3>Macro Calculator</h3>
-          <p>Coming soon.</p>
-        </div>
-        <div class="card card--disabled">
+          <p>Split your calories into protein, carbs and fat.</p>
+        </a>
+
+        <!-- BODY FAT % -->
+        <a class="card" href="/nutrition/body-fat-us-navy/index.html">
           <h3>Body Fat % (US Navy)</h3>
-          <p>Coming soon.</p>
-        </div>
-        <div class="card card--disabled">
+          <p>Estimate your body fat percentage using tape measurements.</p>
+        </a>
+
+        <!-- WATER INTAKE -->
+        <a class="card" href="/nutrition/water-intake/index.html">
           <h3>Water Intake</h3>
-          <p>Coming soon.</p>
-        </div>
+          <p>Estimate daily water intake based on weight and activity.</p>
+        </a>
+
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
       <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
     </div>
   </footer>
 
+  <!-- JS -->
   <script src="/assets/js/main.js"></script>
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

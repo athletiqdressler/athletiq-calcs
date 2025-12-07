@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Body Fat Percentage (US Navy) | Athletiq Calcs</title>
+  <meta
+    name="description"
+    content="Estimate your body fat percentage using the US Navy method based on circumference measurements."
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Athletiq Calcs</a>
+      <nav class="main-nav">
+        <a href="/#nutrition">Nutrition</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container calculator-layout">
+      <section class="calculator">
+        <h1>Body Fat Percentage Calculator (US Navy)</h1>
+        <p class="lead">
+          Estimate your body fat percentage using the US Navy method from simple circumference measurements.
+        </p>
+
+        <form id="calculator-form">
+          <div class="form-field">
+            <label for="sex">Sex</label>
+            <select id="sex">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" min="10" max="90" />
+          </div>
+
+          <div class="form-field">
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" min="120" max="220" />
+          </div>
+
+          <div class="form-field">
+            <label for="neck">Neck circumference (cm)</label>
+            <input type="number" id="neck" min="20" max="60" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <label for="waist">Waist circumference (cm)</label>
+            <input type="number" id="waist" min="40" max="150" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <label for="hip">Hip circumference (cm) — females only</label>
+            <input type="number" id="hip" min="60" max="160" step="0.1" />
+          </div>
+
+          <button type="submit" class="btn-primary">Calculate</button>
+        </form>
+
+        <div id="result" class="result-block">
+          <p>Enter your measurements to estimate your body fat percentage.</p>
+        </div>
+
+        <section class="related">
+          <h2>Related calculators</h2>
+          <ul>
+            <li><a href="/nutrition/bmi/index.html">BMI Calculator</a></li>
+            <li><a href="/nutrition/bmr-tdee/index.html">BMR and TDEE</a></li>
+          </ul>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section>
+          <h2>How it works</h2>
+          <p>
+            The US Navy method uses logarithmic equations that combine height and circumference measurements to estimate
+            body fat percentage. It is a practical field method, not a lab-grade measurement.
+          </p>
+        </section>
+        <section>
+          <h2>How to interpret the results</h2>
+          <p>
+            Compare your result with typical ranges for your sex and age. Track changes over time rather than obsessing
+            over a single value. Training consistency and performance trends matter more than one estimate.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    function log10(x) {
+      return Math.log(x) / Math.LN10;
+    }
+
+    function runCalculator() {
+      const sex = document.getElementById("sex").value;
+      const age = parseFloat(document.getElementById("age").value);
+      const height = parseFloat(document.getElementById("height").value);
+      const neck = parseFloat(document.getElementById("neck").value);
+      const waist = parseFloat(document.getElementById("waist").value);
+      const hip = parseFloat(document.getElementById("hip").value);
+      const resultDiv = document.getElementById("result");
+
+      if (!age || !height || !neck || !waist || age <= 0 || height <= 0 || neck <= 0 || waist <= 0) {
+        resultDiv.innerHTML = "<p>Please fill in all required fields with valid values.</p>";
+        return;
+      }
+
+      let bodyFat;
+
+      if (sex === "male") {
+        if (waist <= neck) {
+          resultDiv.innerHTML = "<p>Waist must be larger than neck for the formula to work.</p>";
+          return;
+        }
+
+        bodyFat =
+          495 /
+            (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) -
+          450;
+      } else {
+        if (!hip || hip <= 0) {
+          resultDiv.innerHTML = "<p>Please provide hip measurement for females.</p>";
+          return;
+        }
+        if (waist + hip <= neck) {
+          resultDiv.innerHTML = "<p>Waist + hip must be larger than neck for the formula to work.</p>";
+          return;
+        }
+
+        bodyFat =
+          495 /
+            (1.29579 -
+              0.35004 * log10(waist + hip - neck) +
+              0.221 * log10(height)) -
+          450;
+      }
+
+      let category;
+      if (sex === "male") {
+        if (bodyFat < 6) category = "Essential fat / very lean";
+        else if (bodyFat < 14) category = "Athlete";
+        else if (bodyFat < 18) category = "Fitness";
+        else if (bodyFat < 25) category = "Average";
+        else category = "High";
+      } else {
+        if (bodyFat < 14) category = "Essential fat / very lean";
+        else if (bodyFat < 21) category = "Athlete";
+        else if (bodyFat < 25) category = "Fitness";
+        else if (bodyFat < 32) category = "Average";
+        else category = "High";
+      }
+
+      resultDiv.innerHTML = `
+        <p><strong>Estimated body fat:</strong> ${bodyFat.toFixed(1)}%</p>
+        <p><strong>Category:</strong> ${category}</p>
+      `;
+    }
+
+    document.getElementById("calculator-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runCalculator();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
