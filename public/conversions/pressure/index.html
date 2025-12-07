@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pressure Converter | Athletiq Calcs</title>
+  <meta name="description" content="Convert pressure between psi, bar and kPa instantly with precision." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Pressure Converter</h1>
+      <p class="lead">Convert pressure between psi, bar and kPa.</p>
+
+      <form id="calculator-form">
+
+        <div class="form-field">
+          <label>Value</label>
+          <input type="number" id="value" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label>From</label>
+          <select id="from">
+            <option value="psi">PSI</option>
+            <option value="bar">Bar</option>
+            <option value="kpa">Kilopascal (kPa)</option>
+          </select>
+        </div>
+
+        <button class="btn-primary">Convert</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter a value to convert pressure.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/conversions/temperature/index.html">Temperature Converter</a></li>
+          <li><a href="/conversions/speed/index.html">Speed Converter</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>1 bar = 14.5038 psi = 100 kPa. Conversions use fixed ratios.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Common in engineering, tire pressure, and physics calculations.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const v = parseFloat(document.getElementById("value").value);
+  const f = document.getElementById("from").value;
+  const r = document.getElementById("result");
+
+  if (!v) {
+    r.innerHTML = "<p>Please enter a number.</p>";
+    return;
+  }
+
+  let kpa;
+  if (f === "kpa") kpa = v;
+  if (f === "bar") kpa = v * 100;
+  if (f === "psi") kpa = v * 6.89476;
+
+  const bar = kpa / 100;
+  const psi = kpa / 6.89476;
+
+  r.innerHTML = `
+    <p><strong>Kilopascal:</strong> ${kpa.toFixed(2)} kPa</p>
+    <p><strong>Bar:</strong> ${bar.toFixed(4)} bar</p>
+    <p><strong>PSI:</strong> ${psi.toFixed(2)} psi</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

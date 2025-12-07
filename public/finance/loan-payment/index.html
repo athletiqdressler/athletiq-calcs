@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loan Payment Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate monthly loan or mortgage payments using principal, rate and term (PMT formula)." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Loan Payment Calculator</h1>
+      <p class="lead">
+        Calculate monthly payments for loans or mortgages using the PMT formula.
+      </p>
+
+      <form id="calculator-form">
+
+        <div class="form-field">
+          <label>Loan Amount</label>
+          <input type="number" id="amount" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="rate" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label>Term (years)</label>
+          <input type="number" id="years" />
+        </div>
+
+        <button class="btn-primary">Calculate</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter loan details to compute the monthly payment.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/finance/compound-interest/index.html">Compound Interest</a></li>
+          <li><a href="/finance/savings-goal/index.html">Savings Goal</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>The PMT formula calculates the monthly installment based on interest and term.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>A lower rate or longer term reduces payments but increases total interest paid.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const L = parseFloat(document.getElementById("amount").value);
+  const r = parseFloat(document.getElementById("rate").value) / 100 / 12;
+  const years = parseFloat(document.getElementById("years").value);
+  const result = document.getElementById("result");
+
+  if (!L || !r || !years) {
+    result.innerHTML = "<p>Please enter all values.</p>";
+    return;
+  }
+
+  const n = years * 12;
+  const payment = (L * r) / (1 - Math.pow(1 + r, -n));
+  const totalPaid = payment * n;
+  const interestPaid = totalPaid - L;
+
+  result.innerHTML = `
+    <p><strong>Monthly Payment:</strong> $${payment.toFixed(2)}</p>
+    <p><strong>Total Paid:</strong> $${totalPaid.toFixed(2)}</p>
+    <p><strong>Total Interest:</strong> $${interestPaid.toFixed(2)}</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.ge

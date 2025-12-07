@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Temperature Converter | Athletiq Calcs</title>
+  <meta name="description" content="Convert temperature between Celsius, Fahrenheit and Kelvin instantly." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Temperature Converter</h1>
+      <p class="lead">Convert between Celsius (°C), Fahrenheit (°F), and Kelvin (K).</p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Temperature</label>
+          <input type="number" id="value" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label>From</label>
+          <select id="from">
+            <option value="c">Celsius (°C)</option>
+            <option value="f">Fahrenheit (°F)</option>
+            <option value="k">Kelvin (K)</option>
+          </select>
+        </div>
+
+        <button class="btn-primary">Convert</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter a temperature to convert.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/conversions/energy/index.html">Energy Converter</a></li>
+          <li><a href="/conversions/pressure/index.html">Pressure Converter</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>Uses standard equations: °F = °C×1.8 + 32, K = °C + 273.15.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Use °C globally, °F for US weather, Kelvin for scientific use.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const v = parseFloat(document.getElementById("value").value);
+  const f = document.getElementById("from").value;
+  const r = document.getElementById("result");
+
+  if (!v && v !== 0) {
+    r.innerHTML = "<p>Please enter a value.</p>";
+    return;
+  }
+
+  let c;
+  if (f === "c") c = v;
+  if (f === "f") c = (v - 32) / 1.8;
+  if (f === "k") c = v - 273.15;
+
+  const fOut = c * 1.8 + 32;
+  const kOut = c + 273.15;
+
+  r.innerHTML = `
+    <p><strong>Celsius:</strong> ${c.toFixed(2)} °C</p>
+    <p><strong>Fahrenheit:</strong> ${fOut.toFixed(2)} °F</p>
+    <p><strong>Kelvin:</strong> ${kOut.toFixed(2)} K</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

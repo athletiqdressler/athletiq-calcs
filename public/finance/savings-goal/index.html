@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Savings Goal Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate how much you need to save each month to reach a financial goal at a given interest rate." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Savings Goal Calculator</h1>
+      <p class="lead">Find the monthly contribution needed to reach your financial goal on time.</p>
+
+      <form id="calculator-form">
+
+        <div class="form-field">
+          <label>Target Amount</label>
+          <input type="number" id="target" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label>Years to Save</label>
+          <input type="number" id="years" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="rate" step="0.01" />
+        </div>
+
+        <button class="btn-primary">Calculate</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter values to see required monthly savings.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/finance/compound-interest/index.html">Compound Interest</a></li>
+          <li><a href="/finance/roi/index.html">Investment ROI</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>The formula is the reverse of compounding: contributions must sum to the future value you need.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Lower rates or shorter timelines require higher monthly savings.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const target = parseFloat(document.getElementById("target").value);
+  const years = parseFloat(document.getElementById("years").value);
+  const rate = parseFloat(document.getElementById("rate").value) / 100;
+  const result = document.getElementById("result");
+
+  if (!target || !years || !rate) {
+    result.innerHTML = "<p>Please enter all values.</p>";
+    return;
+  }
+
+  const months = years * 12;
+  const monthlyRate = rate / 12;
+
+  const monthly = (target * monthlyRate) / (Math.pow(1 + monthlyRate, months) - 1);
+
+  result.innerHTML = `
+    <p><strong>Required Monthly Saving:</strong> $${monthly.toFixed(2)}</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

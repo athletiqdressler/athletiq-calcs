@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Investment ROI Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate return on investment (ROI) using initial and final value. Includes percentage gain/loss." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Investment ROI Calculator</h1>
+      <p class="lead">Compute return on investment from initial and final value.</p>
+
+      <form id="calculator-form">
+
+        <div class="form-field">
+          <label>Initial Value</label>
+          <input type="number" id="initial" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label>Final Value</label>
+          <input type="number" id="final" step="0.01" />
+        </div>
+
+        <button class="btn-primary">Calculate ROI</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter initial and final value to compute ROI.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/finance/simple-interest/index.html">Simple Interest</a></li>
+          <li><a href="/finance/compound-interest/index.html">Compound Interest</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>ROI = (Final – Initial) / Initial. Positive ROI means gain; negative ROI means loss.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>ROI gives a quick snapshot of performance. It ignores time — use compound interest for long-term analysis.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const initial = parseFloat(document.getElementById("initial").value);
+  const final = parseFloat(document.getElementById("final").value);
+  const result = document.getElementById("result");
+
+  if (!initial || !final) {
+    result.innerHTML = "<p>Please enter both values.</p>";
+    return;
+  }
+
+  const gain = final - initial;
+  const roi = (gain / initial) * 100;
+
+  result.innerHTML = `
+    <p><strong>Gain / Loss:</strong> $${gain.toFixed(2)}</p>
+    <p><strong>ROI:</strong> ${roi.toFixed(2)}%</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
