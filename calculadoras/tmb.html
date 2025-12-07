@@ -4,54 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculadora de TMB – Athletiq</title>
-
+  <meta name="description" content="Calcule sua taxa metabólica basal (TMB) em poucos segundos usando a fórmula de Mifflin-St Jeor, base para montar dieta e treino.">
   <link rel="stylesheet" href="/style.css" />
-  <style>
-    .calc-card {
-      background: #111215;
-      padding: 24px;
-      border-radius: 8px;
-      border: 1px solid #1d1e22;
-      max-width: 480px;
-      margin-top: 24px;
-    }
-    .calc-card label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-    .calc-card input, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 14px;
-      background: #0c0d10;
-      border: 1px solid #2a2c31;
-      color: #fff;
-      border-radius: 4px;
-      font-size: 15px;
-    }
-    .calc-btn {
-      width: 100%;
-      padding: 12px;
-      background: #7fda89;
-      border: none;
-      border-radius: 4px;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .result-box {
-      margin-top: 20px;
-      padding: 16px;
-      background: #0c0d10;
-      border: 1px solid #2a2c31;
-      border-radius: 6px;
-    }
-  </style>
 </head>
 
-<body>
+<body class="calc-page">
   <header class="site-header">
     <div class="container header-inner">
       <div class="logo">ATHLETIQ CALCS</div>
@@ -65,30 +22,51 @@
   </header>
 
   <main class="container main-content">
-    <h1>Calculadora de TMB</h1>
-    <p class="hero-subtitle">
-      A TMB (Taxa Metabólica Basal) estima quantas calorias seu corpo gasta em repouso total.
-    </p>
+    <div class="calc-header">
+      <h1>Calculadora de TMB</h1>
+      <p>
+        A TMB (Taxa Metabólica Basal) estima quantas calorias seu corpo gasta em repouso total.
+        Use esse número como base para definir déficit ou superávit calórico.
+      </p>
+    </div>
 
-    <div class="calc-card">
-      <label>Sexo</label>
-      <select id="sexo">
-        <option value="masc">Masculino</option>
-        <option value="fem">Feminino</option>
-      </select>
+    <div class="calc-layout">
+      <section class="calc-meta">
+        <h2>Como interpretar</h2>
+        <p>
+          • <strong>Abaixo da TMB:</strong> difícil de sustentar, costuma gerar fome excessiva.<br>
+          • <strong>Próximo à TMB:</strong> ponto de partida para emagrecimento leve.<br>
+          • <strong>Acima da TMB:</strong> manutenção ou ganho de massa, dependendo do treino.
+        </p>
+        <div class="calc-cta">
+          <p>
+            Quer transformar esse número em um plano de treino real?  
+            O Athletiq usa dados como TMB, volume e performance para gerar treinos personalizados.
+          </p>
+          <p><a href="#">Ver prévia do Athletiq →</a></p>
+        </div>
+      </section>
 
-      <label>Idade (anos)</label>
-      <input type="number" id="idade" placeholder="Ex: 20">
+      <section class="calc-card">
+        <label>Sexo</label>
+        <select id="sexo">
+          <option value="masc">Masculino</option>
+          <option value="fem">Feminino</option>
+        </select>
 
-      <label>Peso (kg)</label>
-      <input type="number" id="peso" placeholder="Ex: 70">
+        <label>Idade (anos)</label>
+        <input type="number" id="idade" placeholder="Ex: 20">
 
-      <label>Altura (cm)</label>
-      <input type="number" id="altura" placeholder="Ex: 175">
+        <label>Peso (kg)</label>
+        <input type="number" id="peso" placeholder="Ex: 70">
 
-      <button class="calc-btn" onclick="calcularTMB()">Calcular TMB</button>
+        <label>Altura (cm)</label>
+        <input type="number" id="altura" placeholder="Ex: 175">
 
-      <div id="resultado" class="result-box" style="display:none;"></div>
+        <button class="calc-btn" onclick="calcularTMB()">Calcular TMB</button>
+
+        <div id="resultado" class="result-box" style="display:none;"></div>
+      </section>
     </div>
   </main>
 
@@ -118,10 +96,15 @@
         tmb = 10 * peso + 6.25 * altura - 5 * idade - 161;
       }
 
-      document.getElementById("resultado").style.display = "block";
-      document.getElementById("resultado").innerHTML = `
-        <h3>Seu TMB estimado:</h3>
+      const resultado = document.getElementById("resultado");
+      resultado.style.display = "block";
+      resultado.innerHTML = `
+        <h3>Seu TMB estimado</h3>
         <p><strong>${Math.round(tmb)} kcal/dia</strong></p>
+        <p style="margin-top:8px;color:#9ea2ac;font-size:13px;">
+          Use esse valor como referência. Dietas de emagrecimento normalmente ficam
+          300–500 kcal abaixo do TDEE, não da TMB isolada.
+        </p>
       `;
     }
   </script>
