@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de TMB – Athletiq</title>
-  <meta name="description" content="Calcule sua taxa metabólica basal (TMB) em poucos segundos usando a fórmula de Mifflin-St Jeor, base para montar dieta e treino.">
+  <title>BMR / TMB Calculator – Athletiq</title>
+  <meta name="description" content="Calculate your basal metabolic rate (BMR / TMB) in metric or imperial units using the Mifflin-St Jeor equation.">
   <link rel="stylesheet" href="/style.css" />
 </head>
 
@@ -13,97 +13,131 @@
     <div class="container header-inner">
       <div class="logo">ATHLETIQ CALCS</div>
       <nav class="nav">
-        <a href="/">Início</a>
-        <a href="/#nutricao">Nutrição</a>
-        <a href="/#corrida">Corrida</a>
-        <a href="/#forca">Força</a>
+        <a href="/">Home</a>
+        <a href="/#nutrition">Nutrition</a>
+        <a href="/#running">Running</a>
+        <a href="/#strength">Strength</a>
       </nav>
     </div>
   </header>
 
   <main class="container main-content">
     <div class="calc-header">
-      <h1>Calculadora de TMB</h1>
+      <h1>BMR / TMB Calculator</h1>
       <p>
-        A TMB (Taxa Metabólica Basal) estima quantas calorias seu corpo gasta em repouso total.
-        Use esse número como base para definir déficit ou superávit calórico.
+        Your basal metabolic rate estimates how many calories your body burns at complete rest.
+        Use this as the baseline to build your deficit or surplus.
       </p>
     </div>
 
     <div class="calc-layout">
       <section class="calc-meta">
-        <h2>Como interpretar</h2>
+        <h2>How to use this number</h2>
         <p>
-          • <strong>Abaixo da TMB:</strong> difícil de sustentar, costuma gerar fome excessiva.<br>
-          • <strong>Próximo à TMB:</strong> ponto de partida para emagrecimento leve.<br>
-          • <strong>Acima da TMB:</strong> manutenção ou ganho de massa, dependendo do treino.
+          • <strong>BMR</strong> is the baseline. Real daily expenditure is higher (TDEE).<br>
+          • For fat loss, people usually aim for <strong>300–500 kcal</strong> below TDEE.<br>
+          • For gaining muscle, <strong>200–400 kcal</strong> above TDEE, with serious training.
         </p>
         <div class="calc-cta">
           <p>
-            Quer transformar esse número em um plano de treino real?  
-            O Athletiq usa dados como TMB, volume e performance para gerar treinos personalizados.
+            Athletiq will soon turn numbers like BMR, volume and performance into fully
+            generated training plans. Built for athletes, not casual apps.
           </p>
-          <p><a href="#">Ver prévia do Athletiq →</a></p>
+          <p><a href="#">Preview Athletiq →</a></p>
         </div>
       </section>
 
       <section class="calc-card">
-        <label>Sexo</label>
-        <select id="sexo">
-          <option value="masc">Masculino</option>
-          <option value="fem">Feminino</option>
+        <label>Sex</label>
+        <select id="sex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
         </select>
 
-        <label>Idade (anos)</label>
-        <input type="number" id="idade" placeholder="Ex: 20">
+        <label>Age</label>
+        <input type="number" id="age" placeholder="Years">
 
-        <label>Peso (kg)</label>
-        <input type="number" id="peso" placeholder="Ex: 70">
+        <div class="inline-row">
+          <div>
+            <label>Weight</label>
+            <input type="number" id="weight" placeholder="e.g. 70">
+          </div>
+          <div>
+            <label>Unit</label>
+            <select id="weightUnit">
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
+        </div>
 
-        <label>Altura (cm)</label>
-        <input type="number" id="altura" placeholder="Ex: 175">
+        <div class="inline-row">
+          <div>
+            <label>Height</label>
+            <input type="number" id="height" placeholder="e.g. 175">
+          </div>
+          <div>
+            <label>Unit</label>
+            <select id="heightUnit">
+              <option value="cm">cm</option>
+              <option value="in">in</option>
+            </select>
+          </div>
+        </div>
 
-        <button class="calc-btn" onclick="calcularTMB()">Calcular TMB</button>
+        <button class="calc-btn" onclick="calculateBMR()">Calculate BMR</button>
 
-        <div id="resultado" class="result-box" style="display:none;"></div>
+        <div id="result" class="result-box" style="display:none;"></div>
       </section>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Athletiq Calcs — treinos guiados por dados.</p>
+      <p>Athletiq Calcs — data as the base of your training.</p>
     </div>
   </footer>
 
   <script>
-    function calcularTMB() {
-      const sexo = document.getElementById("sexo").value;
-      const idade = Number(document.getElementById("idade").value);
-      const peso = Number(document.getElementById("peso").value);
-      const altura = Number(document.getElementById("altura").value);
+    function calculateBMR() {
+      const sex = document.getElementById("sex").value;
+      const age = Number(document.getElementById("age").value);
+      let weight = Number(document.getElementById("weight").value);
+      let height = Number(document.getElementById("height").value);
+      const weightUnit = document.getElementById("weightUnit").value;
+      const heightUnit = document.getElementById("heightUnit").value;
 
-      if (!idade || !peso || !altura) {
-        alert("Preencha todos os campos.");
+      if (!age || !weight || !height) {
+        alert("Fill in age, weight and height.");
         return;
       }
 
-      let tmb;
-
-      if (sexo === "masc") {
-        tmb = 10 * peso + 6.25 * altura - 5 * idade + 5;
-      } else {
-        tmb = 10 * peso + 6.25 * altura - 5 * idade - 161;
+      // Convert weight to kg if necessary
+      if (weightUnit === "lb") {
+        weight = weight * 0.45359237;
       }
 
-      const resultado = document.getElementById("resultado");
-      resultado.style.display = "block";
-      resultado.innerHTML = `
-        <h3>Seu TMB estimado</h3>
-        <p><strong>${Math.round(tmb)} kcal/dia</strong></p>
-        <p style="margin-top:8px;color:#9ea2ac;font-size:13px;">
-          Use esse valor como referência. Dietas de emagrecimento normalmente ficam
-          300–500 kcal abaixo do TDEE, não da TMB isolada.
+      // Convert height to cm if necessary
+      if (heightUnit === "in") {
+        height = height * 2.54;
+      }
+
+      let bmr;
+
+      if (sex === "male") {
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else {
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      const resultBox = document.getElementById("result");
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `
+        <h3>Your estimated BMR</h3>
+        <p><strong>${Math.round(bmr)} kcal/day</strong></p>
+        <p style="margin-top:8px;color:#B3B3B3;font-size:13px;">
+          This is your energy expenditure at rest. To estimate your total daily expenditure,
+          multiply this number by an activity factor (TDEE).
         </p>
       `;
     }
