@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ideal Weight Calculator | Athletiq Calcs</title>
-  <meta name="description" content="Estimate your ideal weight using Devine and Hamwi formulas for precision and performance insights.">
+  <meta name="description" content="Estimate your ideal weight using Devine and Hamwi formulas for men and women." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 
 <body>
-
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo">Athletiq Calcs</a>
@@ -17,80 +16,100 @@
   </div>
 </header>
 
-<main class="page container two-columns">
+<main class="page">
+<div class="container calculator-layout">
 
-  <!-- LEFT -->
-  <section class="content">
-    <h1>Ideal Weight Calculator</h1>
-    <p class="page-intro">Estimate the ideal weight range for your height using scientific reference formulas.</p>
+<section class="calculator">
+<h1>Ideal Weight Calculator</h1>
+<p class="lead">Estimate your ideal weight using the Devine and Hamwi formulas for men and women.</p>
 
-    <form id="calcForm" class="calc-form">
+<form id="calculator-form">
+  <div class="form-field">
+    <label>Sex</label>
+    <select id="sex">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
 
-      <label>Height (cm)</label>
-      <input type="number" id="height" required />
+  <div class="form-field">
+    <label>Height (cm)</label>
+    <input type="number" id="height" min="120" max="220" />
+  </div>
 
-      <label>Gender</label>
-      <select id="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-      </select>
+  <button type="submit" class="btn-primary">Calculate</button>
+</form>
 
-      <button type="button" class="btn-primary" onclick="runCalculator()">Calculate</button>
+<div id="result" class="result-block">
+  <p>Enter your height to estimate your ideal weight.</p>
+</div>
 
-    </form>
+<section class="related">
+  <h2>Related calculators</h2>
+  <ul>
+    <li><a href="/nutrition/bmi/index.html">BMI Calculator</a></li>
+    <li><a href="/nutrition/body-fat-us-navy/index.html">Body Fat %</a></li>
+  </ul>
+</section>
+</section>
 
-    <div id="result" class="result-box"></div>
-  </section>
+<aside class="sidebar">
+<section>
+  <h2>How it works</h2>
+  <p>The calculator uses Devine and Hamwi formulas, which estimate ideal body weight based on height and sex.</p>
+</section>
+<section>
+  <h2>How to interpret</h2>
+  <p>This is a reference range, not a mandatory target. Use it as a guideline alongside body fat, performance and wellbeing.</p>
+</section>
+</aside>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="sidebar-box">
-      <h2>How it works</h2>
-      <p>The Devine and Hamwi equations estimate ideal weight based on height and biological sex.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>How to interpret</h2>
-      <p>Use this as a reference, not a mandate. Athletes may sit above or below due to muscle mass differences.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>Related calculators</h2>
-      <ul class="related-list">
-        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
-        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
-        <li><a href="/nutrition/bmi/">BMI</a></li>
-        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
-        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
-      </ul>
-    </div>
-
-  </aside>
-
+</div>
 </main>
 
 <footer class="site-footer">
   <div class="container">
-    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
   </div>
 </footer>
 
+<script src="/assets/js/main.js"></script>
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+function runCalculator() {
+  const sex = document.getElementById("sex").value;
+  const height = parseFloat(document.getElementById("height").value);
+  const result = document.getElementById("result");
 
-  function runCalculator() {
-    const h = Number(document.getElementById('height').value);
-    const g = document.getElementById('gender').value;
-
-    let devine = g === "male" ? 50 + 0.9 * (h - 152) : 45.5 + 0.9 * (h - 152);
-    let hamwi  = g === "male" ? 48 + 1.1 * (h - 152) : 45 + 0.9 * (h - 152);
-
-    document.getElementById('result').innerHTML = `
-      <p><strong>Devine Ideal Weight:</strong> ${devine.toFixed(1)} kg</p>
-      <p><strong>Hamwi Ideal Weight:</strong> ${hamwi.toFixed(1)} kg</p>
-    `;
+  if (!height || height <= 0) {
+    result.innerHTML = "<p>Please enter a valid height.</p>";
+    return;
   }
+
+  const heightInches = height / 2.54;
+  const extraInches = heightInches - 60;
+
+  let devine, hamwi;
+
+  if (sex === "male") {
+    devine = 50 + 2.3 * extraInches;
+    hamwi = 48 + 2.7 * extraInches;
+  } else {
+    devine = 45.5 + 2.3 * extraInches;
+    hamwi = 45.5 + 2.2 * extraInches;
+  }
+
+  result.innerHTML = `
+    <p><strong>Devine:</strong> ${devine.toFixed(1)} kg</p>
+    <p><strong>Hamwi:</strong> ${hamwi.toFixed(1)} kg</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>

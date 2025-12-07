@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Fiber Intake Calculator | Athletiq Calcs</title>
-  <meta name="description" content="Estimate optimal daily fiber intake using calorie intake or body weight for gut health and performance.">
+  <title>Daily Fiber Intake Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Find out how much fiber you should consume daily based on age and sex according to dietary guidelines." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 
 <body>
-
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo">Athletiq Calcs</a>
@@ -17,78 +16,100 @@
   </div>
 </header>
 
-<main class="page container two-columns">
+<main class="page">
+<div class="container calculator-layout">
 
-  <!-- LEFT -->
-  <section class="content">
-    <h1>Fiber Intake Calculator</h1>
-    <p class="page-intro">Estimate your ideal daily fiber intake from two validated models.</p>
+<section class="calculator">
+<h1>Daily Fiber Intake Calculator</h1>
+<p class="lead">Recommended fiber intake varies by age and sex. Find your ideal daily target.</p>
 
-    <form id="calcForm" class="calc-form">
+<form id="calculator-form">
 
-      <label>Daily Calories (kcal)</label>
-      <input type="number" id="cal" required />
+  <div class="form-field">
+    <label>Sex</label>
+    <select id="sex">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
 
-      <label>Weight (kg)</label>
-      <input type="number" id="weight" required />
+  <div class="form-field">
+    <label>Age</label>
+    <input type="number" id="age" min="5" max="100" />
+  </div>
 
-      <button type="button" class="btn-primary" onclick="runCalculator()">Calculate</button>
+  <button type="submit" class="btn-primary">Calculate</button>
+</form>
 
-    </form>
+<div id="result" class="result-block">
+  <p>Enter age and sex to get your recommended daily fiber intake.</p>
+</div>
 
-    <div id="result" class="result-box"></div>
-  </section>
+<section class="related">
+  <ul>
+    <li><a href="/nutrition/glycemic-load/index.html">Glycemic Load</a></li>
+    <li><a href="/nutrition/ideal-weight/index.html">Ideal Weight</a></li>
+  </ul>
+</section>
+</section>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+<aside class="sidebar">
+<section>
+  <h2>How it works</h2>
+  <p>
+    Uses AI dietary guidelines:  
+    Men: 30–38 g/day depending on age.  
+    Women: 21–28 g/day depending on age.
+  </p>
+</section>
+<section>
+  <h2>How to interpret</h2>
+  <p>
+    Getting enough fiber improves satiety, digestion and blood sugar response. Increase intake gradually to avoid discomfort.
+  </p>
+</section>
+</aside>
 
-    <div class="sidebar-box">
-      <h2>How it works</h2>
-      <p>We compute 14g per 1000 kcal + 0.25–0.35g/kg weight ranges.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>How to interpret</h2>
-      <p>Lower intake supports digestion. Higher intake enhances satiety and glucose control.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>Related calculators</h2>
-      <ul class="related-list">
-        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
-        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
-        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
-        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
-        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
-      </ul>
-    </div>
-
-  </aside>
-
+</div>
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
-  </div>
+  <div class="container"><p>© <span id="year"></span> Athletiq Calcs.</p></div>
 </footer>
 
+<script src="/assets/js/main.js"></script>
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+function runCalculator() {
+  const sex = document.getElementById("sex").value;
+  const age = parseFloat(document.getElementById("age").value);
+  const result = document.getElementById("result");
 
-  function runCalculator() {
-    const cal = Number(document.getElementById("cal").value);
-    const w   = Number(document.getElementById("weight").value);
-
-    const method1 = (cal / 1000) * 14;
-    const method2min = w * 0.25;
-    const method2max = w * 0.35;
-
-    document.getElementById("result").innerHTML = `
-      <p><strong>Fiber by calories:</strong> ${method1.toFixed(1)} g/day</p>
-      <p><strong>Fiber by weight:</strong> ${method2min.toFixed(1)} – ${method2max.toFixed(1)} g/day</p>
-    `;
+  if (!age || age <= 0) {
+    result.innerHTML = "<p>Please enter a valid age.</p>";
+    return;
   }
+
+  let grams;
+
+  if (sex === "male") {
+    if (age < 14) grams = 31;
+    else if (age < 50) grams = 38;
+    else grams = 30;
+  } else {
+    if (age < 14) grams = 26;
+    else if (age < 50) grams = 25;
+    else grams = 21;
+  }
+
+  result.innerHTML = `<p><strong>Recommended fiber:</strong> ${grams} g/day</p>`;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>

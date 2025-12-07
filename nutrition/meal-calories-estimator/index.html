@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Meal Calories Estimator | Athletiq Calcs</title>
-  <meta name="description" content="Estimate the calorie content of any meal using grams of protein, carbs, and fats. Simple and precise.">
+  <meta name="description" content="Estimate total calories in any meal based on its protein, carbohydrate and fat content." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 
 <body>
-
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo">Athletiq Calcs</a>
@@ -17,79 +16,88 @@
   </div>
 </header>
 
-<main class="page container two-columns">
+<main class="page">
+<div class="container calculator-layout">
 
-  <!-- LEFT -->
-  <section class="content">
-    <h1>Meal Calories Estimator</h1>
-    <p class="page-intro">Calculate total meal calories instantly using macronutrient values.</p>
+<section class="calculator">
+<h1>Meal Calories Estimator</h1>
+<p class="lead">Estimate total calories in a meal based on protein, carbohydrate and fat content.</p>
 
-    <form id="calcForm" class="calc-form">
+<form id="calculator-form">
 
-      <label>Protein (g)</label>
-      <input type="number" id="p" required />
+  <div class="form-field">
+    <label>Protein (g)</label>
+    <input type="number" id="protein" min="0" />
+  </div>
 
-      <label>Carbohydrates (g)</label>
-      <input type="number" id="c" required />
+  <div class="form-field">
+    <label>Carbohydrates (g)</label>
+    <input type="number" id="carbs" min="0" />
+  </div>
 
-      <label>Fat (g)</label>
-      <input type="number" id="f" required />
+  <div class="form-field">
+    <label>Fat (g)</label>
+    <input type="number" id="fat" min="0" />
+  </div>
 
-      <button type="button" class="btn-primary" onclick="runCalculator()">Estimate</button>
+  <button type="submit" class="btn-primary">Estimate</button>
+</form>
 
-    </form>
+<div id="result" class="result-block">
+  <p>Enter macros to estimate total calories.</p>
+</div>
 
-    <div id="result" class="result-box"></div>
-  </section>
+<section class="related">
+  <ul>
+    <li><a href="/nutrition/macros/index.html">Macro Calculator</a></li>
+    <li><a href="/nutrition/daily-calorie-intake/index.html">Daily Calorie Intake</a></li>
+  </ul>
+</section>
+</section>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+<aside class="sidebar">
+<section>
+  <h2>How it works</h2>
+  <p>
+    Protein and carbs = 4 kcal/g. Fat = 9 kcal/g.  
+    Total meal calories = (protein×4) + (carbs×4) + (fat×9).
+  </p>
+</section>
+<section>
+  <h2>How to interpret</h2>
+  <p>
+    Use to plan meals or track calorie targets without analyzing every ingredient individually.
+  </p>
+</section>
+</aside>
 
-    <div class="sidebar-box">
-      <h2>How it works</h2>
-      <p>Calories: Protein = 4 kcal/g, Carbs = 4 kcal/g, Fat = 9 kcal/g.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>How to interpret</h2>
-      <p>Use this to track meals, adjust goals, and align daily calorie intake.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>Related calculators</h2>
-      <ul class="related-list">
-        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
-        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
-        <li><a href="/nutrition/protein-intake/">Protein Intake</a></li>
-        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
-        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
-      </ul>
-    </div>
-
-  </aside>
-
+</div>
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
-  </div>
+  <div class="container"><p>© <span id="year"></span> Athletiq Calcs.</p></div>
 </footer>
 
+<script src="/assets/js/main.js"></script>
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+function runCalculator() {
+  const p = parseFloat(document.getElementById("protein").value) || 0;
+  const c = parseFloat(document.getElementById("carbs").value) || 0;
+  const f = parseFloat(document.getElementById("fat").value) || 0;
 
-  function runCalculator() {
-    const p = Number(document.getElementById("p").value);
-    const c = Number(document.getElementById("c").value);
-    const f = Number(document.getElementById("f").value);
+  const result = document.getElementById("result");
 
-    const kcal = p * 4 + c * 4 + f * 9;
+  const total = p * 4 + c * 4 + f * 9;
 
-    document.getElementById("result").innerHTML = `
-      <p><strong>Total Meal Calories:</strong> ${kcal.toFixed(0)} kcal</p>
-    `;
-  }
+  result.innerHTML = `<p><strong>Total calories:</strong> ${total.toFixed(0)} kcal</p>`;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>

@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Protein Intake Calculator | Athletiq Calcs</title>
-  <meta name="description" content="Find the optimal daily protein intake for muscle gain, fat loss, maintenance, or athletic performance.">
+  <meta name="description" content="Find your optimal daily protein intake based on your body weight and fitness goal." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 
 <body>
-
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo">Athletiq Calcs</a>
@@ -17,84 +16,91 @@
   </div>
 </header>
 
-<main class="page container two-columns">
+<main class="page">
+<div class="container calculator-layout">
 
-  <!-- LEFT -->
-  <section class="content">
-    <h1>Protein Intake Calculator</h1>
-    <p class="page-intro">Calculate your ideal daily protein intake using evidence-based multipliers.</p>
+<section class="calculator">
+<h1>Protein Intake Calculator</h1>
+<p class="lead">Estimate your ideal protein intake based on your weight and training goal.</p>
 
-    <form id="calcForm" class="calc-form">
+<form id="calculator-form">
+  <div class="form-field">
+    <label>Body weight (kg)</label>
+    <input type="number" id="weight" min="20" max="200" />
+  </div>
 
-      <label>Weight (kg)</label>
-      <input type="number" id="weight" required />
+  <div class="form-field">
+    <label>Goal</label>
+    <select id="goal">
+      <option value="fat-loss">Fat loss</option>
+      <option value="maintenance">Maintenance</option>
+      <option value="muscle-gain">Muscle gain</option>
+    </select>
+  </div>
 
-      <label>Goal</label>
-      <select id="goal">
-        <option value="maintenance">Maintenance</option>
-        <option value="muscle">Build Muscle</option>
-        <option value="fatloss">Fat Loss</option>
-        <option value="athlete">Athlete</option>
-      </select>
+  <button type="submit" class="btn-primary">Calculate</button>
+</form>
 
-      <button type="button" class="btn-primary" onclick="runCalculator()">Calculate</button>
+<div id="result" class="result-block">
+  <p>Enter your weight and goal to calculate protein intake.</p>
+</div>
 
-    </form>
+<section class="related">
+  <ul>
+    <li><a href="/nutrition/macros/index.html">Macro Calculator</a></li>
+    <li><a href="/nutrition/daily-calorie-intake/index.html">Calorie Intake</a></li>
+  </ul>
+</section>
+</section>
 
-    <div id="result" class="result-box"></div>
-  </section>
+<aside class="sidebar">
+<section>
+  <h2>How it works</h2>
+  <p>Protein needs depend on training volume and goal. Most athletes benefit from 1.6–2.4 g/kg/day.</p>
+</section>
+<section>
+  <h2>How to interpret</h2>
+  <p>Use this as a daily target. Consistency matters more than hitting the exact number every day.</p>
+</section>
+</aside>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="sidebar-box">
-      <h2>How it works</h2>
-      <p>We apply intake multipliers based on goal: 1.2–1.6g/kg (maintenance), up to 2.8g/kg (athletes).</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>How to interpret</h2>
-      <p>The higher end supports recovery and hypertrophy. Adjust using your calorie target.</p>
-    </div>
-
-    <div class="sidebar-box">
-      <h2>Related calculators</h2>
-      <ul class="related-list">
-        <li><a href="/nutrition/bmr-tdee/">BMR & TDEE</a></li>
-        <li><a href="/nutrition/daily-calorie-intake/">Daily Calories</a></li>
-        <li><a href="/nutrition/ideal-weight/">Ideal Weight</a></li>
-        <li><a href="/nutrition/bmi/">BMI</a></li>
-        <li><a href="/nutrition/water-intake/">Water Intake</a></li>
-      </ul>
-    </div>
-
-  </aside>
-
+</div>
 </main>
 
 <footer class="site-footer">
   <div class="container">
-    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
   </div>
 </footer>
 
+<script src="/assets/js/main.js"></script>
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+function runCalculator() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const goal = document.getElementById("goal").value;
+  const result = document.getElementById("result");
 
-  function runCalculator() {
-    const w = Number(document.getElementById('weight').value);
-    const g = document.getElementById('goal').value;
-
-    let min, max;
-    if (g === "maintenance") { min = w * 1.2; max = w * 1.6; }
-    if (g === "muscle")      { min = w * 1.6; max = w * 2.2; }
-    if (g === "fatloss")     { min = w * 1.8; max = w * 2.4; }
-    if (g === "athlete")     { min = w * 2.0; max = w * 2.8; }
-
-    document.getElementById('result').innerHTML = `
-      <p><strong>Daily Protein Range:</strong> ${min.toFixed(1)}g – ${max.toFixed(1)}g</p>
-    `;
+  if (!weight || weight <= 0) {
+    result.innerHTML = "<p>Please enter a valid weight.</p>";
+    return;
   }
+
+  let multiplier;
+  if (goal === "fat-loss") multiplier = 2.2;
+  else if (goal === "muscle-gain") multiplier = 2.0;
+  else multiplier = 1.6;
+
+  const protein = weight * multiplier;
+
+  result.innerHTML = `<p><strong>Recommended protein:</strong> ${protein.toFixed(0)} g/day</p>`;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
