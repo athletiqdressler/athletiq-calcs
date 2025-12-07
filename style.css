@@ -1,14 +1,14 @@
 :root {
-  --bg: #050608;
-  --bg-elevated: #0c0f13;
-  --border-subtle: #1b1f26;
-  --accent: #7fda89;
-  --accent-soft: rgba(127, 218, 137, 0.12);
-  --text-main: #f5f5f5;
-  --text-muted: #9ea2ac;
+  --bg: #1A1A1A;             /* Dark grey Athletiq */
+  --bg-elevated: #232323;    /* Card background */
+  --border-subtle: #333333;
+  --accent: #556B2F;         /* Moss / olive green */
+  --accent-soft: rgba(85, 107, 47, 0.22);
+  --text-main: #F2F2F2;
+  --text-muted: #B3B3B3;
 }
 
-/* RESET BÁSICO */
+/* BASIC RESET */
 * {
   box-sizing: border-box;
 }
@@ -30,7 +30,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* LAYOUT GLOBAL */
+/* LAYOUT */
 .container {
   max-width: 1024px;
   margin: 0 auto;
@@ -42,7 +42,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(5, 6, 8, 0.96);
+  background: rgba(26, 26, 26, 0.96);
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(10px);
 }
@@ -63,7 +63,7 @@ a:hover {
 .nav a {
   margin-left: 16px;
   font-size: 14px;
-  color: #c7c7c7;
+  color: #d0d0d0;
 }
 
 .nav a:hover {
@@ -92,7 +92,7 @@ a:hover {
   font-size: 15px;
 }
 
-/* CLUSTERS HOME */
+/* CLUSTERS */
 .cluster {
   margin-top: 32px;
   padding-top: 16px;
@@ -129,7 +129,7 @@ a:hover {
   color: var(--text-muted);
 }
 
-/* ========== CALCULADORAS (TEMPLATE PREMIUM) ========== */
+/* ========= CALCULATOR TEMPLATE ========= */
 
 .calc-page .main-content {
   padding-top: 24px;
@@ -150,7 +150,7 @@ a:hover {
   font-size: 14px;
 }
 
-/* layout lateral: texto à esquerda, card à direita (desce em mobile) */
+/* layout: text left, card right */
 .calc-layout {
   display: flex;
   gap: 32px;
@@ -180,7 +180,7 @@ a:hover {
   padding: 24px;
   border-radius: 12px;
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
 }
 
 .calc-card label {
@@ -194,8 +194,8 @@ a:hover {
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 14px;
-  background: #05070b;
-  border: 1px solid #252933;
+  background: #151515;
+  border: 1px solid #3a3a3a;
   color: var(--text-main);
   border-radius: 6px;
   font-size: 15px;
@@ -206,6 +206,15 @@ a:hover {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+.inline-row {
+  display: flex;
+  gap: 8px;
+}
+
+.inline-row > * {
+  flex: 1;
 }
 
 .calc-btn {
@@ -222,15 +231,15 @@ a:hover {
 }
 
 .calc-btn:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
 }
 
 .result-box {
   margin-top: 18px;
   padding: 14px 16px;
-  background: #05070b;
+  background: #151515;
   border-radius: 10px;
-  border: 1px solid #252933;
+  border: 1px solid #3a3a3a;
   font-size: 14px;
 }
 
@@ -240,12 +249,12 @@ a:hover {
   font-size: 15px;
 }
 
-/* CTA ATHLETIQ DENTRO DAS CALCULADORAS */
+/* CTA INSIDE CALC */
 .calc-cta {
   margin-top: 24px;
   padding: 16px;
   border-radius: 10px;
-  border: 1px dashed #2b303a;
+  border: 1px dashed #3a3a3a;
   background: radial-gradient(circle at top left, var(--accent-soft), transparent 60%);
   font-size: 13px;
 }
@@ -254,7 +263,7 @@ a:hover {
   font-weight: 600;
 }
 
-/* RESPONSIVO */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
