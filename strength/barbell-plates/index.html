@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Barbell Plate Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Find the plate combination needed on each side of the bar to reach a target weight in kg." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+    <section class="calculator">
+      <h1>Barbell Plate Calculator</h1>
+      <p class="lead">
+        Find the plate combination per side of the barbell to reach your target weight in kg.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label for="target">Target total weight (kg)</label>
+          <input type="number" id="target" min="20" step="0.5" />
+        </div>
+
+        <div class="form-field">
+          <label for="bar">Bar weight (kg)</label>
+          <input type="number" id="bar" value="20" min="10" step="0.5" />
+        </div>
+
+        <button type="submit" class="btn-primary">Calculate plates</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter target and bar weight to get plate distribution.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/strength/one-rm/index.html">One-Rep Max (1RM)</a></li>
+          <li><a href="/strength/training-volume/index.html">Training Volume</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          The calculator subtracts bar weight from the target, splits the remainder between both sides and fills it with
+          standard kg plates (20, 15, 10, 5, 2.5, 1.25).
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Use the output as a practical guide when loading the bar. Gyms may have different plate sets, so adjust as
+          needed if certain plates are unavailable.
+        </p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+const plateSizes = [20, 15, 10, 5, 2.5, 1.25];
+
+function computePlatesPerSide(perSideWeight) {
+  const plates = {};
+  let remaining = perSideWeight;
+
+  for (const p of plateSizes) {
+    const count = Math.floor(remaining / p);
+    if (count > 0) {
+      plates[p] = count;
+      remaining = +(remaining - count * p).toFixed(2);
+    }
+  }
+
+  return { plates, remaining };
+}
+
+function runCalculator() {
+  const target = parseFloat(document.getElementById("target").value);
+  const bar = parseFloat(document.getElementById("bar").value);
+  const resultDiv = document.getElementById("result");
+
+  if (!target || !bar || target <= 0 || bar <= 0 || target <= bar) {
+    resultDiv.innerHTML = "<p>Please enter valid values. Target must be heavier than the bar.</p>";
+    return;
+  }
+
+  const totalPlatesWeight = target - bar;
+  const perSide = totalPlatesWeight / 2;
+
+  const { plates, remaining } = computePlatesPerSide(perSide);
+
+  let html = `<p><strong>Per side:</strong> need ${perSide.toFixed(2)} kg in plates.</p>`;
+
+  if (remaining > 0.1) {
+    html += `<p>Closest match using standard plates (small difference may remain).</p>`;
+  }
+
+  html += "<ul>";
+  for (const p of plateSizes) {
+    if (plates[p]) {
+      html += `<li>${plates[p]} × ${p} kg</li>`;
+    }
+  }
+  html += "</ul>";
+
+  if (Object.keys(plates).length === 0) {
+    html += "<p>No standard plate combination found. Try another target.</p>";
+  }
+
+  resultDiv.innerHTML = html;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

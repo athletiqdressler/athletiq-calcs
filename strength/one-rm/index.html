@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>One-Rep Max Calculator (1RM) | Athletiq Calcs</title>
+  <meta name="description" content="Estimate your one-repetition maximum (1RM) using Epley and Brzycki formulas from any submaximal set." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+    <section class="calculator">
+      <h1>One-Rep Max Calculator (1RM)</h1>
+      <p class="lead">
+        Estimate your 1RM using Epley and Brzycki formulas from any hard set of 2–12 reps.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label for="exercise">Exercise (optional)</label>
+          <input type="text" id="exercise" placeholder="Squat, bench press, deadlift..." />
+        </div>
+
+        <div class="form-field">
+          <label for="weight">Weight lifted (kg)</label>
+          <input type="number" id="weight" min="5" step="0.5" />
+        </div>
+
+        <div class="form-field">
+          <label for="reps">Reps performed</label>
+          <input type="number" id="reps" min="1" max="15" />
+        </div>
+
+        <button type="submit" class="btn-primary">Calculate 1RM</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter weight and reps of a hard set to estimate your 1RM.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/strength/rpe-1rm/index.html">RPE ↔ %1RM</a></li>
+          <li><a href="/strength/progressive-overload/index.html">Progressive Overload</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          The calculator uses two common equations to estimate your 1RM: Epley and Brzycki. Both extrapolate your max from
+          a submaximal set performed close to failure, typically between 2 and 12 reps.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Use 1RM estimates to plan training loads by percentage. Keep in mind that fatigue, technique and exercise choice
+          affect the result, so use it as a guideline rather than an exact number.
+        </p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const reps = parseInt(document.getElementById("reps").value, 10);
+  const resultDiv = document.getElementById("result");
+
+  if (!weight || !reps || weight <= 0 || reps <= 0) {
+    resultDiv.innerHTML = "<p>Please enter a valid weight and rep count.</p>";
+    return;
+  }
+
+  // Epley: 1RM = w × (1 + reps/30)
+  const epley = weight * (1 + reps / 30);
+
+  // Brzycki: 1RM = w × 36 / (37 - reps)
+  let brzycki = null;
+  if (reps < 37) {
+    brzycki = weight * 36 / (37 - reps);
+  }
+
+  let html = `<p><strong>Epley 1RM:</strong> ${epley.toFixed(1)} kg</p>`;
+
+  if (brzycki) {
+    html += `<p><strong>Brzycki 1RM:</strong> ${brzycki.toFixed(1)} kg</p>`;
+    const avg = (epley + brzycki) / 2;
+    html += `<p><strong>Average estimate:</strong> ${avg.toFixed(1)} kg</p>`;
+  }
+
+  resultDiv.innerHTML = html;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

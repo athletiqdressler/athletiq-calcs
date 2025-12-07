@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Speed ↔ Pace Converter | Athletiq Calcs</title>
+  <meta name="description" content="Convert between running speed (km/h) and running pace (min/km) instantly." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#running">Running</a></nav>
+  </div>
+</header>
+
+<main class="page">
+<div class="container calculator-layout">
+
+<section class="calculator">
+<h1>Speed ↔ Pace Converter</h1>
+<p class="lead">Convert between running speed (km/h) and pace (min/km).</p>
+
+<form id="calculator-form">
+
+  <div class="form-field">
+    <label>Speed (km/h)</label>
+    <input type="number" id="speed" min="1" step="0.1" />
+  </div>
+
+  <div class="form-field">
+    <label>Pace minutes</label>
+    <input type="number" id="pmin" min="0" />
+  </div>
+
+  <div class="form-field">
+    <label>Pace seconds</label>
+    <input type="number" id="psec" min="0" max="59" />
+  </div>
+
+  <button type="submit" class="btn-primary">Convert</button>
+</form>
+
+<div id="result" class="result-block">
+  <p>Enter either speed or pace to convert.</p>
+</div>
+
+<section class="related">
+  <ul>
+    <li><a href="/running/pace/index.html">Pace Calculator</a></li>
+    <li><a href="/running/race-pace/index.html">Race Pace</a></li>
+  </ul>
+</section>
+</section>
+
+<aside class="sidebar">
+<section>
+  <h2>How it works</h2>
+  <p>Speed = 60 / pace (min).  
+     Pace = 60 / speed.</p>
+</section>
+<section>
+  <h2>How to interpret</h2>
+  <p>Use this to translate training plans or treadmill speeds into outdoor running paces.</p>
+</section>
+</aside>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container"><p>© <span id="year"></span> Athletiq Calcs.</p></div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const speed = parseFloat(document.getElementById("speed").value);
+  const pmin = parseFloat(document.getElementById("pmin").value);
+  const psec = parseFloat(document.getElementById("psec").value) || 0;
+
+  const result = document.getElementById("result");
+
+  let html = "";
+
+  if (speed && speed > 0) {
+    const paceMin = 60 / speed;
+    const m = Math.floor(paceMin);
+    const s = Math.round((paceMin - m) * 60);
+    html += `<p><strong>Pace:</strong> ${m}:${s.toString().padStart(2, "0")} min/km</p>`;
+  }
+
+  const paceTotal = (pmin * 60 + psec);
+  if (paceTotal > 0) {
+    const speedKmH = 3600 / paceTotal;
+    html += `<p><strong>Speed:</strong> ${speedKmH.toFixed(2)} km/h</p>`;
+  }
+
+  if (!html) html = "<p>Please enter speed or pace.</p>";
+
+  result.innerHTML = html;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

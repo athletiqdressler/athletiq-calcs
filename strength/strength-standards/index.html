@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Strength Standards Estimator | Athletiq Calcs</title>
+  <meta name="description" content="Estimate your strength level for major lifts based on your 1RM relative to bodyweight." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+    <section class="calculator">
+      <h1>Strength Standards Estimator</h1>
+      <p class="lead">
+        Estimate your strength level for key lifts based on 1RM relative to bodyweight.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label for="exercise">Exercise</label>
+          <select id="exercise">
+            <option value="squat">Back Squat</option>
+            <option value="bench">Bench Press</option>
+            <option value="deadlift">Deadlift</option>
+            <option value="ohp">Overhead Press</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="bodyweight">Bodyweight (kg)</label>
+          <input type="number" id="bodyweight" min="40" max="200" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label for="oneRm">1RM (kg)</label>
+          <input type="number" id="oneRm" min="10" max="400" step="0.5" />
+        </div>
+
+        <button type="submit" class="btn-primary">Estimate level</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter bodyweight and 1RM to estimate your strength level.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/strength/one-rm/index.html">One-Rep Max (1RM)</a></li>
+          <li><a href="/strength/progressive-overload/index.html">Progressive Overload</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          The calculator compares your 1RM to your bodyweight and classifies your level (Beginner to Elite) using simple
+          strength ratios for each lift.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Use these levels as broad landmarks, not as rigid labels. Progress over months and years matters more than any
+          single classification.
+        </p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function getThresholds(exercise) {
+  // Multipliers: [Beginner, Novice, Intermediate, Advanced, Elite]
+  switch (exercise) {
+    case "squat":
+      return [0.75, 1.0, 1.5, 2.0, 2.5];
+    case "bench":
+      return [0.5, 0.75, 1.0, 1.5, 2.0];
+    case "deadlift":
+      return [1.0, 1.5, 2.0, 2.5, 3.0];
+    case "ohp":
+      return [0.35, 0.5, 0.75, 1.0, 1.25];
+    default:
+      return [0.75, 1.0, 1.5, 2.0, 2.5];
+  }
+}
+
+function levelFromRatio(ratio, thresholds) {
+  const labels = ["Untrained", "Beginner", "Novice", "Intermediate", "Advanced", "Elite"];
+  if (ratio < thresholds[0]) return labels[0];
+  if (ratio < thresholds[1]) return labels[1];
+  if (ratio < thresholds[2]) return labels[2];
+  if (ratio < thresholds[3]) return labels[3];
+  if (ratio < thresholds[4]) return labels[4];
+  return labels[5];
+}
+
+function runCalculator() {
+  const exercise = document.getElementById("exercise").value;
+  const bodyweight = parseFloat(document.getElementById("bodyweight").value);
+  const oneRm = parseFloat(document.getElementById("oneRm").value);
+  const resultDiv = document.getElementById("result");
+
+  if (!bodyweight || !oneRm || bodyweight <= 0 || oneRm <= 0) {
+    resultDiv.innerHTML = "<p>Please enter valid values for bodyweight and 1RM.</p>";
+    return;
+  }
+
+  const ratio = oneRm / bodyweight;
+  const thresholds = getThresholds(exercise);
+  const level = levelFromRatio(ratio, thresholds);
+
+  resultDiv.innerHTML = `
+    <p><strong>Strength ratio:</strong> ${ratio.toFixed(2)} × bodyweight</p>
+    <p><strong>Estimated level:</strong> ${level}</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

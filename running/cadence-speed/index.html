@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadence ↔ Speed Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Convert between running cadence (steps per minute) and speed using your stride length." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#running">Running</a></nav>
+  </div>
+</header>
+
+<main class="page">
+<div class="container calculator-layout">
+
+<section class="calculator">
+  <h1>Cadence ↔ Speed Calculator</h1>
+  <p class="lead">
+    Convert between running cadence (steps per minute) and speed using your average stride length.
+  </p>
+
+  <form id="calculator-form">
+    <div class="form-field">
+      <label for="stride">Stride length (meters)</label>
+      <input type="number" id="stride" min="0.5" max="2.5" step="0.01" />
+    </div>
+
+    <div class="form-field">
+      <label for="cadence">Cadence (steps/min)</label>
+      <input type="number" id="cadence" min="120" max="220" />
+    </div>
+
+    <div class="form-field">
+      <label for="speed">Speed (km/h)</label>
+      <input type="number" id="speed" min="1" max="30" step="0.1" />
+    </div>
+
+    <button type="submit" class="btn-primary">Convert</button>
+  </form>
+
+  <div id="result" class="result-block">
+    <p>Enter stride length and either cadence or speed to convert.</p>
+  </div>
+
+  <section class="related">
+    <ul>
+      <li><a href="/running/pace/index.html">Pace Calculator</a></li>
+      <li><a href="/running/speed-pace-converter/index.html">Speed ↔ Pace</a></li>
+    </ul>
+  </section>
+</section>
+
+<aside class="sidebar">
+  <section>
+    <h2>How it works</h2>
+    <p>
+      Speed (m/min) = cadence × stride length.  
+      Speed (km/h) = (cadence × stride × 60) ÷ 1000.  
+      You can invert the equation to find cadence from speed.
+    </p>
+  </section>
+  <section>
+    <h2>How to interpret</h2>
+    <p>
+      Many distance runners sit between 160–180 steps/min at easy pace. Track how cadence changes with speed and fatigue.
+    </p>
+  </section>
+</aside>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const stride = parseFloat(document.getElementById("stride").value);
+  const cadence = parseFloat(document.getElementById("cadence").value);
+  const speed = parseFloat(document.getElementById("speed").value);
+  const result = document.getElementById("result");
+
+  if (!stride || stride <= 0) {
+    result.innerHTML = "<p>Please enter a valid stride length.</p>";
+    return;
+  }
+
+  let html = "";
+
+  if (cadence && cadence > 0) {
+    const speedKmH = (cadence * stride * 60) / 1000;
+    html += `<p><strong>Speed from cadence:</strong> ${speedKmH.toFixed(2)} km/h</p>`;
+  }
+
+  if (speed && speed > 0) {
+    const cadenceFromSpeed = (speed * 1000) / (stride * 60);
+    html += `<p><strong>Cadence from speed:</strong> ${cadenceFromSpeed.toFixed(0)} steps/min</p>`;
+  }
+
+  if (!html) {
+    html = "<p>Please enter cadence or speed.</p>";
+  }
+
+  result.innerHTML = html;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

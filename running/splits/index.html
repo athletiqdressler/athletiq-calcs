@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Running Split Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Generate per-kilometer or per-mile splits from your total race distance and time." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#running">Running</a></nav>
+  </div>
+</header>
+
+<main class="page">
+<div class="container calculator-layout">
+
+<section class="calculator">
+  <h1>Running Split Calculator</h1>
+  <p class="lead">
+    Generate even splits per kilometer or mile from your total race distance and finish time.
+  </p>
+
+  <form id="calculator-form">
+    <div class="form-field">
+      <label for="distance">Total distance</label>
+      <input type="number" id="distance" min="1" step="0.1" />
+    </div>
+
+    <div class="form-field">
+      <label for="unit">Unit</label>
+      <select id="unit">
+        <option value="km">km</option>
+        <option value="mile">mile</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="h">Hours</label>
+      <input type="number" id="h" min="0" />
+    </div>
+
+    <div class="form-field">
+      <label for="m">Minutes</label>
+      <input type="number" id="m" min="0" max="59" />
+    </div>
+
+    <div class="form-field">
+      <label for="s">Seconds</label>
+      <input type="number" id="s" min="0" max="59" />
+    </div>
+
+    <div class="form-field">
+      <label for="splitUnit">Split distance</label>
+      <select id="splitUnit">
+        <option value="1">1 (same as main unit)</option>
+        <option value="0.5">0.5</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-primary">Generate splits</button>
+  </form>
+
+  <div id="result" class="result-block">
+    <p>Enter distance and finish time to generate splits.</p>
+  </div>
+
+  <section class="related">
+    <ul>
+      <li><a href="/running/pace/index.html">Pace Calculator</a></li>
+      <li><a href="/running/race-pace/index.html">Race Pace</a></li>
+    </ul>
+  </section>
+</section>
+
+<aside class="sidebar">
+  <section>
+    <h2>How it works</h2>
+    <p>
+      The calculator assumes even pacing: pace = total time ÷ distance.
+      It then multiplies the pace by each split distance to generate cumulative times.
+    </p>
+  </section>
+  <section>
+    <h2>How to interpret</h2>
+    <p>
+      Use the splits to pace yourself during training runs or races. Real-world pacing will vary slightly with terrain and fatigue.
+    </p>
+  </section>
+</aside>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function formatTime(totalSec) {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = Math.floor(totalSec % 60);
+  if (h > 0) return `${h}h ${m}m ${s}s`;
+  return `${m}m ${s}s`;
+}
+
+function runCalculator() {
+  const distance = parseFloat(document.getElementById("distance").value);
+  const unit = document.getElementById("unit").value;
+  const h = parseFloat(document.getElementById("h").value) || 0;
+  const m = parseFloat(document.getElementById("m").value) || 0;
+  const s = parseFloat(document.getElementById("s").value) || 0;
+  const splitUnit = parseFloat(document.getElementById("splitUnit").value);
+
+  const result = document.getElementById("result");
+
+  if (!distance || distance <= 0) {
+    result.innerHTML = "<p>Please enter a valid distance.</p>";
+    return;
+  }
+
+  const totalTime = h * 3600 + m * 60 + s;
+  if (totalTime <= 0) {
+    result.innerHTML = "<p>Please enter a valid finish time.</p>";
+    return;
+  }
+
+  const pacePerUnit = totalTime / distance; // seconds per main unit
+  const splitDistance = splitUnit;
+  const totalSplits = Math.floor(distance / splitDistance);
+
+  if (totalSplits > 200) {
+    result.innerHTML = "<p>Too many splits. Use a larger split distance.</p>";
+    return;
+  }
+
+  let html = "<p><strong>Even splits:</strong></p><ul>";
+
+  for (let i = 1; i <= totalSplits; i++) {
+    const dist = i * splitDistance;
+    const time = pacePerUnit * dist;
+    html += `<li>${dist.toFixed(1)} ${unit}: ${formatTime(time)}</li>`;
+  }
+
+  html += "</ul>";
+
+  result.innerHTML = html;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

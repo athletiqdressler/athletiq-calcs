@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VO2max Rockport Test | Athletiq Calcs</title>
+  <meta name="description" content="Estimate your VO2max from the Rockport 1-mile walking test using time, heart rate, age and weight." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#running">Running</a></nav>
+  </div>
+</header>
+
+<main class="page">
+<div class="container calculator-layout">
+
+<section class="calculator">
+  <h1>VO2max – Rockport Test</h1>
+  <p class="lead">
+    Estimate your VO2max from the Rockport 1-mile walking test using time, heart rate, age and weight.
+  </p>
+
+  <form id="calculator-form">
+    <div class="form-field">
+      <label for="sex">Sex</label>
+      <select id="sex">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="age">Age (years)</label>
+      <input type="number" id="age" min="10" max="90" />
+    </div>
+
+    <div class="form-field">
+      <label for="weight">Weight</label>
+      <input type="number" id="weight" min="30" max="200" step="0.1" />
+    </div>
+
+    <div class="form-field">
+      <label for="weightUnit">Weight unit</label>
+      <select id="weightUnit">
+        <option value="kg">kg</option>
+        <option value="lb">lb</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="timeMin">Time (minutes)</label>
+      <input type="number" id="timeMin" min="8" max="30" step="0.1" />
+    </div>
+
+    <div class="form-field">
+      <label for="hr">Heart rate at finish (bpm)</label>
+      <input type="number" id="hr" min="60" max="220" />
+    </div>
+
+    <button type="submit" class="btn-primary">Calculate</button>
+  </form>
+
+  <div id="result" class="result-block">
+    <p>Enter your Rockport test data to estimate VO2max.</p>
+  </div>
+
+  <section class="related">
+    <ul>
+      <li><a href="/running/vo2max-cooper/index.html">VO2max Cooper</a></li>
+      <li><a href="/running/pace/index.html">Pace Calculator</a></li>
+    </ul>
+  </section>
+</section>
+
+<aside class="sidebar">
+  <section>
+    <h2>How it works</h2>
+    <p>
+      The Rockport test uses a 1-mile walk at steady pace.  
+      Formula (weight in lbs, time in minutes):  
+      VO2max = 132.853 − 0.0769×weight − 0.3877×age + 6.315×sex − 3.2649×time − 0.1565×HR,  
+      where sex = 1 for male and 0 for female.
+    </p>
+  </section>
+  <section>
+    <h2>How to interpret</h2>
+    <p>
+      Compare your VO2max with reference tables and track how it changes over training blocks. Use it as one metric among many.
+    </p>
+  </section>
+</aside>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const sex = document.getElementById("sex").value;
+  const age = parseFloat(document.getElementById("age").value);
+  const weight = parseFloat(document.getElementById("weight").value);
+  const weightUnit = document.getElementById("weightUnit").value;
+  const timeMin = parseFloat(document.getElementById("timeMin").value);
+  const hr = parseFloat(document.getElementById("hr").value);
+  const result = document.getElementById("result");
+
+  if (!age || !weight || !timeMin || !hr ||
+      age <= 0 || weight <= 0 || timeMin <= 0 || hr <= 0) {
+    result.innerHTML = "<p>Please fill in all fields with valid values.</p>";
+    return;
+  }
+
+  const weightLb = weightUnit === "lb" ? weight : weight * 2.20462;
+  const sexFactor = sex === "male" ? 1 : 0;
+
+  const vo2max =
+    132.853 -
+    0.0769 * weightLb -
+    0.3877 * age +
+    6.315 * sexFactor -
+    3.2649 * timeMin -
+    0.1565 * hr;
+
+  result.innerHTML = `
+    <p><strong>Estimated VO2max:</strong> ${vo2max.toFixed(1)} ml/kg/min</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weekly Muscle Volume Tracker | Athletiq Calcs</title>
+  <meta name="description" content="Track total weekly sets and volume for a muscle group across multiple sessions." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+    <section class="calculator">
+      <h1>Weekly Muscle Volume Tracker</h1>
+      <p class="lead">
+        Track weekly sets and volume for one muscle group across up to four sessions.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label for="muscle">Muscle group</label>
+          <input type="text" id="muscle" placeholder="Chest, quads, back..." />
+        </div>
+
+        <div class="form-field">
+          <label for="sessions">Number of sessions this week</label>
+          <input type="number" id="sessions" min="1" max="4" />
+        </div>
+
+        <div class="form-field">
+          <label for="sets1">Sets in session 1</label>
+          <input type="number" id="sets1" min="0" max="30" />
+        </div>
+
+        <div class="form-field">
+          <label for="sets2">Sets in session 2</label>
+          <input type="number" id="sets2" min="0" max="30" />
+        </div>
+
+        <div class="form-field">
+          <label for="sets3">Sets in session 3</label>
+          <input type="number" id="sets3" min="0" max="30" />
+        </div>
+
+        <div class="form-field">
+          <label for="sets4">Sets in session 4</label>
+          <input type="number" id="sets4" min="0" max="30" />
+        </div>
+
+        <button type="submit" class="btn-primary">Calculate weekly volume</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Fill in your sessions to see weekly hard sets for the muscle group.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/strength/training-volume/index.html">Training Volume</a></li>
+          <li><a href="/strength/progressive-overload/index.html">Progressive Overload</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          Weekly hard sets per muscle group are a key driver of hypertrophy. This tool sums your sets across up to four
+          weekly sessions to give a clear picture of workload.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Many lifters progress well around 10–20 hard sets per muscle per week. Adjust based on your recovery, strength
+          gains and joint health.
+        </p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const sessions = parseInt(document.getElementById("sessions").value, 10);
+  const sets1 = parseInt(document.getElementById("sets1").value || "0", 10);
+  const sets2 = parseInt(document.getElementById("sets2").value || "0", 10);
+  const sets3 = parseInt(document.getElementById("sets3").value || "0", 10);
+  const sets4 = parseInt(document.getElementById("sets4").value || "0", 10);
+  const resultDiv = document.getElementById("result");
+
+  if (!sessions || sessions < 1 || sessions > 4) {
+    resultDiv.innerHTML = "<p>Please enter a valid number of sessions (1–4).</p>";
+    return;
+  }
+
+  const setsArray = [sets1, sets2, sets3, sets4].slice(0, sessions);
+  const totalSets = setsArray.reduce((sum, v) => sum + (isNaN(v) ? 0 : v), 0);
+
+  let range;
+  if (totalSets < 8) range = "low";
+  else if (totalSets <= 20) range = "moderate to high";
+  else range = "very high";
+
+  resultDiv.innerHTML = `
+    <p><strong>Total weekly sets:</strong> ${totalSets}</p>
+    <p><strong>Load range:</strong> ${range} for most lifters.</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

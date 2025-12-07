@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Training Volume Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate total training volume (sets × reps × load) for a strength training exercise or session." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+    <section class="calculator">
+      <h1>Training Volume Calculator</h1>
+      <p class="lead">
+        Calculate total training volume (sets × reps × load) for a lift or full session.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label for="exercise">Exercise (optional)</label>
+          <input type="text" id="exercise" placeholder="Squat, bench press, row..." />
+        </div>
+
+        <div class="form-field">
+          <label for="sets">Number of sets</label>
+          <input type="number" id="sets" min="1" max="30" />
+        </div>
+
+        <div class="form-field">
+          <label for="reps">Reps per set (average)</label>
+          <input type="number" id="reps" min="1" max="30" />
+        </div>
+
+        <div class="form-field">
+          <label for="weight">Weight per rep (kg, average)</label>
+          <input type="number" id="weight" min="5" step="0.5" />
+        </div>
+
+        <button type="submit" class="btn-primary">Calculate volume</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Fill in sets, reps and weight to calculate training volume.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related calculators</h2>
+        <ul>
+          <li><a href="/strength/weekly-volume/index.html">Weekly Volume Tracker</a></li>
+          <li><a href="/strength/progressive-overload/index.html">Progressive Overload</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          Training volume is the total work performed: sets × reps × load. This calculator uses your average reps and
+          weight per set to provide a simple estimate.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Use volume as a reference to compare sessions and track progression over time. Increases should be gradual and
+          matched with adequate recovery.
+        </p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const sets = parseFloat(document.getElementById("sets").value);
+  const reps = parseFloat(document.getElementById("reps").value);
+  const weight = parseFloat(document.getElementById("weight").value);
+  const resultDiv = document.getElementById("result");
+
+  if (!sets || !reps || !weight || sets <= 0 || reps <= 0 || weight <= 0) {
+    resultDiv.innerHTML = "<p>Please enter valid values for sets, reps and weight.</p>";
+    return;
+  }
+
+  const totalReps = sets * reps;
+  const volume = totalReps * weight;
+
+  resultDiv.innerHTML = `
+    <p><strong>Total reps:</strong> ${totalReps}</p>
+    <p><strong>Total volume:</strong> ${volume.toFixed(1)} kg lifted</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

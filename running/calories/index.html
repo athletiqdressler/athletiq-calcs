@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Running Calories Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Estimate how many calories you burn on a run based on your weight and distance covered." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav"><a href="/#running">Running</a></nav>
+  </div>
+</header>
+
+<main class="page">
+<div class="container calculator-layout">
+
+<section class="calculator">
+  <h1>Running Calories Calculator</h1>
+  <p class="lead">
+    Estimate how many calories you burn while running based on your body weight and distance.
+  </p>
+
+  <form id="calculator-form">
+    <div class="form-field">
+      <label for="weight">Body weight</label>
+      <input type="number" id="weight" min="30" max="200" step="0.1" />
+    </div>
+
+    <div class="form-field">
+      <label for="weightUnit">Weight unit</label>
+      <select id="weightUnit">
+        <option value="kg">kg</option>
+        <option value="lb">lb</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="distance">Distance</label>
+      <input type="number" id="distance" min="0.5" step="0.1" />
+    </div>
+
+    <div class="form-field">
+      <label for="unit">Distance unit</label>
+      <select id="unit">
+        <option value="km">km</option>
+        <option value="mile">mile</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-primary">Calculate</button>
+  </form>
+
+  <div id="result" class="result-block">
+    <p>Enter your weight and distance to estimate calories burned.</p>
+  </div>
+
+  <section class="related">
+    <ul>
+      <li><a href="/running/pace/index.html">Pace Calculator</a></li>
+      <li><a href="/running/race-pace/index.html">Race Pace</a></li>
+    </ul>
+  </section>
+</section>
+
+<aside class="sidebar">
+  <section>
+    <h2>How it works</h2>
+    <p>
+      A simple rule of thumb: running burns about 1 kcal per kg of body weight per kilometer.
+      Calories ≈ weight(kg) × distance(km).
+    </p>
+  </section>
+  <section>
+    <h2>How to interpret</h2>
+    <p>
+      Use this as a rough estimate for planning energy intake and comparing runs. Terrain, pace and efficiency change actual values.
+    </p>
+  </section>
+</aside>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+function runCalculator() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const weightUnit = document.getElementById("weightUnit").value;
+  const distance = parseFloat(document.getElementById("distance").value);
+  const unit = document.getElementById("unit").value;
+  const result = document.getElementById("result");
+
+  if (!weight || !distance || weight <= 0 || distance <= 0) {
+    result.innerHTML = "<p>Please enter valid weight and distance.</p>";
+    return;
+  }
+
+  const weightKg = weightUnit === "kg" ? weight : weight * 0.453592;
+  const distanceKm = unit === "km" ? distance : distance * 1.60934;
+
+  const calories = weightKg * distanceKm;
+
+  result.innerHTML = `
+    <p><strong>Estimated calories burned:</strong> ${calories.toFixed(0)} kcal</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
