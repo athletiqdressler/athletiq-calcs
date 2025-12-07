@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Word Counter | Athletiq Calcs</title>
+  <meta name="description" content="Count words, characters and lines for essays, social posts and notes in seconds." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Word Counter</h1>
+      <p class="lead">Paste your text and see word, character and line counts instantly.</p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Text</label>
+          <textarea id="text" rows="8"></textarea>
+        </div>
+        <button class="btn-primary">Count</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Paste or type text to see counts.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/school/percentage/index.html">Percentage Calculator</a></li>
+          <li><a href="/school/rule-of-three/index.html">Rule of Three</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>Words are split by whitespace; characters are counted with and without spaces; lines are separated by breaks.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Use it to hit essay limits, stay within character caps or monitor writing volume.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function countText() {
+  const text = document.getElementById("text").value;
+  const result = document.getElementById("result");
+
+  const trimmed = text.trim();
+  const words = trimmed ? trimmed.split(/\s+/).length : 0;
+  const charsWithSpaces = text.length;
+  const charsNoSpaces = text.replace(/\s/g, "").length;
+  const lines = text ? text.split(/\r\n|\r|\n/).length : 0;
+
+  result.innerHTML = `
+    <p><strong>Words:</strong> ${words}</p>
+    <p><strong>Characters (with spaces):</strong> ${charsWithSpaces}</p>
+    <p><strong>Characters (no spaces):</strong> ${charsNoSpaces}</p>
+    <p><strong>Lines:</strong> ${lines}</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  countText();
+});
+document.getElementById("text").addEventListener("input", countText);
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Percentage Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Calculate percentages, percentage of a value and percentage change in one clean tool." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Percentage Calculator</h1>
+      <p class="lead">Compute percentage of a value, percentage that one value represents, or percentage change.</p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Mode</label>
+          <select id="mode">
+            <option value="of">What is P% of X?</option>
+            <option value="is-what-percent">P is what percent of X?</option>
+            <option value="change">Percentage change from X to Y</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label id="label-a">P (percent)</label>
+          <input type="number" id="a" step="0.01" />
+        </div>
+
+        <div class="form-field">
+          <label id="label-b">X (base value)</label>
+          <input type="number" id="b" step="0.01" />
+        </div>
+
+        <div class="form-field" id="field-c" style="display:none;">
+          <label>Y (new value)</label>
+          <input type="number" id="c" step="0.01" />
+        </div>
+
+        <button class="btn-primary">Calculate</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Select a mode and enter the values.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/school/rule-of-three/index.html">Rule of Three</a></li>
+          <li><a href="/finance/roi/index.html">Investment ROI</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>The calculator switches between standard percentage formulas depending on the selected mode.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Use it for discounts, grades, comparisons and quick school exercises.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+const modeSelect = document.getElementById("mode");
+const labelA = document.getElementById("label-a");
+const labelB = document.getElementById("label-b");
+const fieldC = document.getElementById("field-c");
+
+modeSelect.addEventListener("change", () => {
+  const mode = modeSelect.value;
+  if (mode === "of") {
+    labelA.textContent = "P (percent)";
+    labelB.textContent = "X (base value)";
+    fieldC.style.display = "none";
+  } else if (mode === "is-what-percent") {
+    labelA.textContent = "P (part)";
+    labelB.textContent = "X (whole)";
+    fieldC.style.display = "none";
+  } else {
+    labelA.textContent = "X (original value)";
+    labelB.textContent = "Y (new value)";
+    fieldC.style.display = "none";
+  }
+});
+
+function runCalculator() {
+  const mode = modeSelect.value;
+  const a = parseFloat(document.getElementById("a").value);
+  const b = parseFloat(document.getElementById("b").value);
+  const result = document.getElementById("result");
+
+  if (mode === "of") {
+    if (isNaN(a) || isNaN(b)) {
+      result.innerHTML = "<p>Please enter P and X.</p>";
+      return;
+    }
+    const value = (a / 100) * b;
+    result.innerHTML = `<p><strong>Result:</strong> ${a}% of ${b} = ${value.toFixed(4)}</p>`;
+  } else if (mode === "is-what-percent") {
+    if (isNaN(a) || isNaN(b) || b === 0) {
+      result.innerHTML = "<p>Please enter P and X (X ≠ 0).</p>";
+      return;
+    }
+    const perc = (a / b) * 100;
+    result.innerHTML = `<p><strong>Result:</strong> ${a} is ${perc.toFixed(2)}% of ${b}.</p>`;
+  } else {
+    if (isNaN(a) || isNaN(b) || a === 0) {
+      result.innerHTML = "<p>Please enter X and Y (X ≠ 0).</p>";
+      return;
+    }
+    const change = ((b - a) / a) * 100;
+    result.innerHTML = `<p><strong>Percentage change:</strong> ${change.toFixed(2)}%</p>`;
+  }
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

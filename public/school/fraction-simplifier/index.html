@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fraction Simplifier | Athletiq Calcs</title>
+  <meta name="description" content="Simplify fractions to lowest terms and see the decimal value instantly." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Fraction Simplifier</h1>
+      <p class="lead">Reduce fractions to simplest form and see the decimal equivalent.</p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Numerator</label>
+          <input type="number" id="num" />
+        </div>
+        <div class="form-field">
+          <label>Denominator</label>
+          <input type="number" id="den" />
+        </div>
+        <button class="btn-primary">Simplify</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter a numerator and denominator.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/school/rule-of-three/index.html">Rule of Three</a></li>
+          <li><a href="/school/percentage/index.html">Percentage Calculator</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>The fraction is divided by the greatest common divisor (GCD) of numerator and denominator.</p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>Use simplified fractions for school work, ratios and clear math communication.</p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) {
+    const t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
+function runCalculator() {
+  const num = parseInt(document.getElementById("num").value, 10);
+  const den = parseInt(document.getElementById("den").value, 10);
+  const result = document.getElementById("result");
+
+  if (isNaN(num) || isNaN(den) || den === 0) {
+    result.innerHTML = "<p>Please enter valid integers (denominator ≠ 0).</p>";
+    return;
+  }
+
+  const divisor = gcd(num, den);
+  const simpleNum = num / divisor;
+  const simpleDen = den / divisor;
+  const decimal = num / den;
+
+  result.innerHTML = `
+    <p><strong>Simplified fraction:</strong> ${simpleNum}/${simpleDen}</p>
+    <p><strong>Decimal:</strong> ${decimal.toFixed(6)}</p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
