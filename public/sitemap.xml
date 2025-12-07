@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- HOME -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/</loc>
+  </url>
+
+  <!-- NUTRITION -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/bmr-tdee/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/bmi/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/daily-calorie-intake/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/macros/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/body-fat-us-navy/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/nutrition/water-intake/</loc>
+  </url>
+
+  <!-- RUNNING -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/pace/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/race-pace/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/speed-pace-converter/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/vo2max-cooper/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/vo2max-rockport/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/running-calories/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/cadence-speed/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/running/splits/</loc>
+  </url>
+
+  <!-- STRENGTH -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/one-rm/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/rpe-percent/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/training-volume/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/weekly-volume/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/progressive-overload/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/strength-standards/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/rest-timer/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/strength/barbell-plates/</loc>
+  </url>
+
+  <!-- FINANCE -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/simple-interest/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/compound-interest/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/loan-payment/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/roi/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/savings-goal/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/finance/inflation-adjusted/</loc>
+  </url>
+
+  <!-- CONVERSIONS -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/weight/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/height/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/speed/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/temperature/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/pressure/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/length/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/energy/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/conversions/time/</loc>
+  </url>
+
+  <!-- SCHOOL -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/school/rule-of-three/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/school/percentage/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/school/fraction-simplifier/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/school/word-counter/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/school/random-number/</loc>
+  </url>
+
+  <!-- BABY -->
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/baby/child-height-percentile/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/baby/child-weight-percentile/</loc>
+  </url>
+  <url>
+    <loc>https://athletiq-calcs.vercel.app/baby/adult-height-predictor/</loc>
+  </url>
+
+</urlset>
