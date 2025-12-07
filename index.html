@@ -1,97 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Athletiq Calcs | Smart Calculators for Training and Health</title>
-  <meta
-    name="description"
-    content="Athletiq Calcs is a collection of smart, easy-to-use calculators for training, nutrition and performance."
-  />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/assets/css/main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athletiq Calcs — Precision Performance Calculators</title>
+    <meta name="description" content="Elite performance calculators for athletes: nutrition, training, running, strength, and more. Built for speed, accuracy, and results.">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="logo">Athletiq Calcs</a>
-      <nav class="main-nav">
-        <a href="#nutrition">Nutrition</a>
-      </nav>
-    </div>
-  </header>
 
-  <!-- MAIN CONTENT -->
-  <main class="page">
-    <!-- HERO -->
-    <section class="hero container">
-      <h1>Precision calculators for serious results.</h1>
-      <p class="hero-subtitle">
-        Start with the core nutrition calculators and build your plan on real numbers, not guesses.
-      </p>
-    </section>
+<header>
+    <h1>Athletiq Calcs</h1>
+    <p class="desc">Precision performance calculators engineered for athletes.</p>
+</header>
 
-    <!-- NUTRITION SECTION -->
-    <section id="nutrition" class="section container">
-      <h2>Nutrition calculators</h2>
-      <p class="section-intro">
-        Core tools to estimate your energy needs, body composition and hydration.
-      </p>
+<div class="section">
+    <h2>Nutrition Calculators</h2>
+    <ul>
+        <li><a href="nutrition/bmr-tdee/">BMR / TDEE Calculator</a></li>
+        <li><a href="nutrition/daily-calories/">Daily Calories Calculator</a></li>
+        <li><a href="nutrition/bmi/">BMI Calculator</a></li>
+        <li><a href="nutrition/water-intake/">Water Intake</a></li>
 
-      <div class="card-grid">
+        <!-- DIA 2 ADDITIONS -->
+        <li><a href="nutrition/ideal-weight/">Ideal Weight</a></li>
+        <li><a href="nutrition/protein-intake/">Protein Intake</a></li>
+        <li><a href="nutrition/glycemic-load/">Glycemic Load</a></li>
+        <li><a href="nutrition/fiber-intake/">Fiber Intake</a></li>
+        <li><a href="nutrition/carb-cycling/">Carb Cycling Planner</a></li>
+        <li><a href="nutrition/meal-calories/">Meal Calories Estimator</a></li>
+    </ul>
+</div>
 
-        <!-- BMR & TDEE -->
-        <a class="card" href="/nutrition/bmr-tdee/index.html">
-          <h3>BMR and TDEE</h3>
-          <p>Estimate your basal metabolism and total daily energy expenditure.</p>
-        </a>
+<div class="section">
+    <h2>Running Calculators</h2>
+    <ul>
+        <li><a href="running/pace/">Pace Calculator</a></li>
+        <li><a href="running/race-pace/">Race Pace</a></li>
+        <li><a href="running/speed-pace-converter/">Speed ↔ Pace Converter</a></li>
+        <li><a href="running/vo2max/">VO2 Max</a></li>
+        <li><a href="running/running-calories/">Running Calories</a></li>
+    </ul>
+</div>
 
-        <!-- BMI -->
-        <a class="card" href="/nutrition/bmi/index.html">
-          <h3>BMI Calculator</h3>
-          <p>Check your Body Mass Index and weight category.</p>
-        </a>
+<div class="section">
+    <h2>Strength Calculators</h2>
+    <ul>
+        <li><a href="strength/one-rep-max/">1RM Calculator</a></li>
+    </ul>
+</div>
 
-        <!-- DAILY CALORIE INTAKE -->
-        <a class="card" href="/nutrition/daily-calorie-intake/index.html">
-          <h3>Daily Calorie Intake</h3>
-          <p>Find your calorie target for fat loss, maintenance or muscle gain.</p>
-        </a>
+<footer>
+    <p>© Athletiq Calcs — Precision Engineered Performance Tools</p>
+</footer>
 
-        <!-- MACROS -->
-        <a class="card" href="/nutrition/macros/index.html">
-          <h3>Macro Calculator</h3>
-          <p>Split your calories into protein, carbs and fat.</p>
-        </a>
-
-        <!-- BODY FAT % -->
-        <a class="card" href="/nutrition/body-fat-us-navy/index.html">
-          <h3>Body Fat % (US Navy)</h3>
-          <p>Estimate your body fat percentage using tape measurements.</p>
-        </a>
-
-        <!-- WATER INTAKE -->
-        <a class="card" href="/nutrition/water-intake/index.html">
-          <h3>Water Intake</h3>
-          <p>Estimate daily water intake based on weight and activity.</p>
-        </a>
-
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Athletiq Calcs. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- JS -->
-  <script src="/assets/js/main.js"></script>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
