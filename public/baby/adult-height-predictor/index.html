@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adult Height Predictor | Athletiq Calcs</title>
+  <meta name="description" content="Estimate a child's potential adult height using mid-parental height formulas. Educational, not medical advice." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Adult Height Predictor</h1>
+      <p class="lead">
+        Estimate a child's adult height using the mid-parental height method.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Child's sex</label>
+          <select id="sex">
+            <option value="boy">Boy</option>
+            <option value="girl">Girl</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Mother's height (cm)</label>
+          <input type="number" id="mother" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label>Father's height (cm)</label>
+          <input type="number" id="father" step="0.1" />
+        </div>
+
+        <button class="btn-primary">Predict height</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Enter both parents' heights to estimate adult height.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/baby/child-height-percentile/index.html">Child Height Percentile</a></li>
+          <li><a href="/nutrition/bmi/index.html">BMI Calculator</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          The mid-parental height formula is a common rule of thumb:
+          for boys, (father + mother + 13) / 2; for girls, (father + mother − 13) / 2.
+          Result is approximate.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Real adult height depends on many factors (nutrition, health, genetics).
+          This tool is for educational use only and does not replace medical evaluation.
+        </p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function runCalculator() {
+  const sex = document.getElementById("sex").value;
+  const mother = parseFloat(document.getElementById("mother").value);
+  const father = parseFloat(document.getElementById("father").value);
+  const result = document.getElementById("result");
+
+  if (!mother || !father) {
+    result.innerHTML = "<p>Please enter both parents' heights.</p>";
+    return;
+  }
+
+  let midParental;
+  if (sex === "boy") {
+    midParental = (father + mother + 13) / 2;
+  } else {
+    midParental = (father + mother - 13) / 2;
+  }
+
+  const lower = midParental - 8.5;
+  const upper = midParental + 8.5;
+
+  result.innerHTML = `
+    <p><strong>Estimated adult height:</strong> ${midParental.toFixed(1)} cm</p>
+    <p><strong>Typical range:</strong> ${lower.toFixed(1)} cm to ${upper.toFixed(1)} cm</p>
+    <p><small>This is an estimate based on a simple formula and not a prediction of actual outcome.</small></p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Child Weight Percentile Calculator | Athletiq Calcs</title>
+  <meta name="description" content="Estimate your child's weight percentile using a reference mean and standard deviation from growth charts. For educational use only." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Athletiq Calcs</a>
+    <nav class="main-nav">
+      <a href="/#nutrition">Nutrition</a>
+      <a href="/#running">Running</a>
+      <a href="/#strength">Strength</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#conversions">Conversions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container calculator-layout">
+
+    <section class="calculator">
+      <h1>Child Weight Percentile</h1>
+      <p class="lead">
+        Estimate your child's weight percentile using reference mean and standard deviation from a growth chart.
+      </p>
+
+      <form id="calculator-form">
+        <div class="form-field">
+          <label>Child's weight (kg)</label>
+          <input type="number" id="weight" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label>Reference mean for age &amp; sex (kg)</label>
+          <input type="number" id="mean" step="0.1" />
+        </div>
+
+        <div class="form-field">
+          <label>Reference standard deviation (kg)</label>
+          <input type="number" id="sd" step="0.1" />
+        </div>
+
+        <button class="btn-primary">Calculate percentile</button>
+      </form>
+
+      <div id="result" class="result-block">
+        <p>Get mean and SD from a pediatric growth chart and enter them here.</p>
+      </div>
+
+      <section class="related">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="/baby/child-height-percentile/index.html">Child Height Percentile</a></li>
+          <li><a href="/nutrition/bmi/index.html">BMI Calculator</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section>
+        <h2>How it works</h2>
+        <p>
+          The calculator applies the normal distribution using the z-score formula
+          z = (weight − mean) / SD and converts z into a percentile.
+        </p>
+      </section>
+      <section>
+        <h2>How to interpret</h2>
+        <p>
+          Percentiles only reflect the reference data you provide. This is not a diagnostic tool.
+          Always discuss growth and weight with a healthcare professional.
+        </p>
+      </section>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Athletiq Calcs</p>
+  </div>
+</footer>
+
+<script>
+function erf(x) {
+  const sign = x < 0 ? -1 : 1;
+  const absX = Math.abs(x);
+
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const p = 0.3275911;
+
+  const t = 1 / (1 + p * absX);
+  const y =
+    1 -
+    (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) *
+      t *
+      Math.exp(-absX * absX);
+
+  return sign * y;
+}
+
+function normalCdf(z) {
+  return 0.5 * (1 + erf(z / Math.SQRT2));
+}
+
+function runCalculator() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const mean = parseFloat(document.getElementById("mean").value);
+  const sd = parseFloat(document.getElementById("sd").value);
+  const result = document.getElementById("result");
+
+  if (!weight || !mean || !sd || sd <= 0) {
+    result.innerHTML = "<p>Please enter valid weight, mean and SD (SD &gt; 0).</p>";
+    return;
+  }
+
+  const z = (weight - mean) / sd;
+  const percentile = normalCdf(z) * 100;
+
+  result.innerHTML = `
+    <p><strong>Z-score:</strong> ${z.toFixed(2)}</p>
+    <p><strong>Approximate percentile:</strong> ${percentile.toFixed(1)}th</p>
+    <p><small>Based on your input values. Confirm with official growth charts if needed.</small></p>
+  `;
+}
+
+document.getElementById("calculator-form").addEventListener("submit", e => {
+  e.preventDefault();
+  runCalculator();
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
