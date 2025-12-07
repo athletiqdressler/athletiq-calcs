@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glycemic Load Calculator | Athletiq Calcs</title>
+    <meta name="description" content="Calculate Glycemic Load (GL) using glycemic index and carbohydrate quantity. Essential for glucose control and athletic fueling.">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <main>
+        <h1>Glycemic Load Calculator</h1>
+        <p class="desc">Enter GI and grams of carbs to calculate glycemic load instantly.</p>
+
+        <form id="calcForm">
+            <label>Glycemic Index (GI)</label>
+            <input type="number" id="gi" required>
+
+            <label>Carbs (g)</label>
+            <input type="number" id="carbs" required>
+
+            <button type="button" onclick="runCalculator()">Calculate</button>
+        </form>
+
+        <div id="result" class="resultBox"></div>
+    </main>
+
+    <aside>
+        <h2>How it works</h2>
+        <p>GL = (GI × grams of carbohydrates) ÷ 100. It measures the actual blood-sugar impact of a serving.</p>
+
+        <h2>How to interpret</h2>
+        <p>Low GL &lt; 10, Medium 10–19, High ≥ 20. Athletes may use higher GL for fueling prior to training.</p>
+
+        <h2>Related calculators</h2>
+        <ul>
+            <li><a href="../bmr-tdee/">BMR / TDEE</a></li>
+            <li><a href="../daily-calories/">Daily Calories</a></li>
+            <li><a href="../ideal-weight/">Ideal Weight</a></li>
+            <li><a href="../protein-intake/">Protein Intake</a></li>
+            <li><a href="../water-intake/">Water Intake</a></li>
+        </ul>
+    </aside>
+
+</div>
+
+<script>
+function runCalculator() {
+    const gi = Number(document.getElementById('gi').value);
+    const c = Number(document.getElementById('carbs').value);
+
+    const gl = (gi * c) / 100;
+
+    let category = "";
+    if (gl < 10) category = "Low";
+    else if (gl < 20) category = "Medium";
+    else category = "High";
+
+    document.getElementById('result').innerHTML = `
+        <p><strong>Glycemic Load:</strong> ${gl.toFixed(1)} (${category})</p>
+    `;
+}
+</script>
+
+</body>
+</html>

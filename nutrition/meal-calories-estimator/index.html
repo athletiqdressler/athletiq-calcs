@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Calories Estimator | Athletiq Calcs</title>
+    <meta name="description" content="Estimate meal calories quickly using grams of protein, carbs, and fat.">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <main>
+        <h1>Meal Calories Estimator</h1>
+        <p class="desc">Enter macronutrients to estimate total meal calories instantly.</p>
+
+        <form id="calcForm">
+            <label>Protein (g)</label>
+            <input type="number" id="p" required>
+
+            <label>Carbs (g)</label>
+            <input type="number" id="c" required>
+
+            <label>Fat (g)</label>
+            <input type="number" id="f" required>
+
+            <button type="button" onclick="runCalculator()">Estimate</button>
+        </form>
+
+        <div id="result" class="resultBox"></div>
+    </main>
+
+    <aside>
+        <h2>How it works</h2>
+        <p>Each macronutrient has a caloric value: protein = 4 kcal/g, carbs = 4 kcal/g, fat = 9 kcal/g.</p>
+
+        <h2>How to interpret</h2>
+        <p>Use estimates to budget meals, track intake, and align with your calorie target.</p>
+
+        <h2>Related calculators</h2>
+        <ul>
+            <li><a href="../bmr-tdee/">BMR / TDEE</a></li>
+            <li><a href="../daily-calories/">Daily Calories</a></li>
+            <li><a href="../ideal-weight/">Ideal Weight</a></li>
+            <li><a href="../protein-intake/">Protein Intake</a></li>
+            <li><a href="../water-intake/">Water Intake</a></li>
+        </ul>
+    </aside>
+
+</div>
+
+<script>
+function runCalculator() {
+    const p = Number(document.getElementById('p').value);
+    const c = Number(document.getElementById('c').value);
+    const f = Number(document.getElementById('f').value);
+
+    const kcal = p*4 + c*4 + f*9;
+
+    document.getElementById('result').innerHTML = `
+        <p><strong>Total Meal Calories:</strong> ${kcal.toFixed(0)} kcal</p>
+    `;
+}
+</script>
+
+</body>
+</html>
